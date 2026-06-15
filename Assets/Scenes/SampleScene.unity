@@ -119,39 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &45879149
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 45879150}
-  m_Layer: 0
-  m_Name: Scene
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &45879150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45879149}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.811115, y: 0, z: 26.965971}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1035020039}
-  - {fileID: 1297458080}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,11 +539,11 @@ Transform:
   m_GameObject: {fileID: 1035020035}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.13695431, y: 0, z: -0.4996605}
+  m_LocalPosition: {x: 13.94807, y: 0, z: 26.46631}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 45879150}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1297458079
 PrefabInstance:
@@ -584,11 +551,11 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 45879150}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 13.811115
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
       propertyPath: m_LocalPosition.y
@@ -596,7 +563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 26.965971
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
       propertyPath: m_LocalRotation.w
@@ -628,7 +595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
       propertyPath: m_Name
-      value: Meshy_AI_Full_body_firefighter_biped_Animation_Skill_01_frame_rate_60_1
+      value: Firefighter
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
       propertyPath: m_Controller
@@ -643,11 +610,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
---- !u!4 &1297458080 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6957d09bda5f7f61fb103d4394e81867, type: 3}
-  m_PrefabInstance: {fileID: 1297458079}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -655,4 +617,5 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 45879150}
+  - {fileID: 1035020039}
+  - {fileID: 1297458079}
