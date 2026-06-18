@@ -225,8 +225,9 @@ GameObject:
   - component: {fileID: 2873009165987110906}
   - component: {fileID: 4685136397677158304}
   - component: {fileID: 4834268224368850753}
+  - component: {fileID: 2384570993087578753}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ScreenSelectorButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,3 +362,16 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2384570993087578753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8519277816187175525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aafc6954a0c85cefaafba4d21a2f81cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScreenSelectorButton
+  targetScreen: 1
