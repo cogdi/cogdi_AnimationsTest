@@ -2406,6 +2406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogBox
   yesButton: {fileID: 1985208743}
   noButton: {fileID: 1841927192}
+  closeButton: {fileID: 1351445445}
 --- !u!1 &246926652
 GameObject:
   m_ObjectHideFlags: 0
