@@ -14,8 +14,6 @@ public class PlayerAnimations : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(playerMotorInstance);
-        Debug.Log(playerMotorInstance.PlayerSpeed);
         playerSpeed = PlayerMotor.Instance.PlayerSpeed;
         animator.SetFloat(SPEED_VAR, playerSpeed);
     } 

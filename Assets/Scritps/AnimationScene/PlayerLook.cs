@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
+    public static PlayerLook Instance { get; private set; }
+    public Camera FirstPersonCamera { get => firstPersonCam; }
+    public bool FirstPersonMode { get => firstPersonMode; }
+
     [SerializeField] private Camera firstPersonCam;
     [SerializeField] private Camera thirdPersonCam;
-    [SerializeField, Range(0, 12)] private float firstPersonVerticalSensitivity = 1.33f;
-    [SerializeField, Range(0, 12)] private float firstPersonHorizontalSensitivity = 3.6f;
+    [SerializeField, Range(0, 12)] private float firstPersonVerticalSensitivity = 2.8f;
+    [SerializeField, Range(0, 12)] private float firstPersonHorizontalSensitivity = 2.8f;
     [SerializeField, Range(0, 12)] private float thirdPersonSensitivity = 3.6f;
     [SerializeField] private float cameraUpperClamp = 90f;
     [SerializeField] private float cameraLowerClamp = 60f;
@@ -16,6 +20,8 @@ public class PlayerLook : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -26,10 +32,6 @@ public class PlayerLook : MonoBehaviour
 
     private void PlayerInput_OnSwitchCameraTriggered()
     {
-        // thirdPersonCam.gameObject.SetActive(firstPersonMode);
-        // thirdPersonCam.gameObject.SetActive(!firstPersonMode);
-
-
         if (firstPersonMode)
         {
             firstPersonCam.gameObject.SetActive(false);
@@ -55,11 +57,10 @@ public class PlayerLook : MonoBehaviour
 
     private void FirstPersonLook()
     {
-        inputX += PlayerInput.Instance.GetLookVectorNormalized().x;
-        inputY += PlayerInput.Instance.GetLookVectorNormalized().y;
+        inputX += PlayerInput.Instance.GetLookVector().x;
+        inputY += PlayerInput.Instance.GetLookVector().y;
 
         Vector3 lookRotation = new Vector3(-inputY * firstPersonVerticalSensitivity, inputX * firstPersonHorizontalSensitivity, 0f);
-        //lookRotation *= firstPersonSensitivity;
 
         transform.rotation = Quaternion.Euler(0f, lookRotation.y, 0f);
         firstPersonCam.transform.rotation = Quaternion.Euler(Mathf.Clamp(lookRotation.x, cameraLowerClamp, cameraUpperClamp), lookRotation.y, 0f);
@@ -67,7 +68,17 @@ public class PlayerLook : MonoBehaviour
 
     private void ThirdPersonLook()
     {
-        inputX += PlayerInput.Instance.GetLookVectorNormalized().x;
+        inputX += PlayerInput.Instance.GetLookVector().x;
         transform.rotation = Quaternion.Euler(0f, inputX * thirdPersonSensitivity, 0f);
+    }
+
+    public Vector3 GetCameraPosition()
+    {
+        return firstPersonCam.transform.position;
+    }
+
+    public Vector3 GetCameraTransformForward()
+    {
+        return firstPersonCam.transform.forward;
     }
 }
