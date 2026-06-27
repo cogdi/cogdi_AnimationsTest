@@ -38,15 +38,22 @@ public class PlayerMotor : MonoBehaviour
     {
         //PlayerInput.Instance.OnInteractPerformed += PickUpFirstPerson;
         PlayerInput.Instance.OnInteractPerformed += PlayerInput_OnInteractPerformed;
-
     }
 
     private void PlayerInput_OnInteractPerformed()
     {
-        if (PlayerLook.Instance.FirstPersonMode)
-            PickUpFirstPerson();
+        if (!holdedItem)
+        {
+            if (PlayerLook.Instance.FirstPersonMode)
+                PickUpFirstPerson();
+            else
+                PickUpThirdPerson();
+        }
+
         else
-            PickUpThirdPerson();
+        {
+            DropItem();
+        }
     }
 
     private void Update()
@@ -98,49 +105,36 @@ public class PlayerMotor : MonoBehaviour
 
     private void PickUpFirstPerson()
     {
-        if (!holdedItem)
+        Ray ray = new Ray(PlayerLook.Instance.GetCameraPosition(), PlayerLook.Instance.GetCameraTransformForward());
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
-            Ray ray = new Ray(PlayerLook.Instance.GetCameraPosition(), PlayerLook.Instance.GetCameraTransformForward());
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
+            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
             {
-                if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
-                {
-                    OnItemPickedUp?.Invoke(cube);
-                    holdedItem = cube;
-                    Debug.Log("Item picked up");
-                }
+                OnItemPickedUp?.Invoke(cube);
+                holdedItem = cube;
+                Debug.Log("Item picked up");
             }
-        }
-
-        else
-        {
-            OnItemDropped?.Invoke(holdedItem);
-            holdedItem = null;
-            Debug.Log("Item dropped");
         }
     }
 
     private void PickUpThirdPerson()
     {
-        if (!holdedItem)
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, interactionDistance))
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, interactionDistance))
+            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
             {
-                if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
-                {
-                    OnItemPickedUp?.Invoke(cube);
-                    holdedItem = cube;
-                    Debug.Log("Item picked up");
-                }
+                OnItemPickedUp?.Invoke(cube);
+                holdedItem = cube;
+                Debug.Log("Item picked up");
             }
         }
+    }
 
-        else
-        {
-            OnItemDropped?.Invoke(holdedItem);
-            holdedItem = null;
-            Debug.Log("Item dropped");
-        }
+    private void DropItem()
+    {
+        OnItemDropped?.Invoke(holdedItem);
+        holdedItem = null;
+        Debug.Log("Item dropped");
     }
 
     private bool IsMoving()

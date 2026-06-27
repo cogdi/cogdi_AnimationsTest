@@ -25,10 +25,20 @@ public class InteractableObject : MonoBehaviour
         if (obj == this)
         {
             DisablePhysics();
-            transform.SetParent(PlayerMotor.Instance.transform);
-            // transform.SetParent(PlayerLook.Instance.FirstPersonCamera.transform);
+            // transform.SetParent(PlayerMotor.Instance.transform);
+            transform.SetParent(PlayerLook.Instance.FirstPersonCamera.transform);
         }
     }
+
+    // private void PlayerMotor_OnItemPickedUpThirdPerson(InteractableObject obj)
+    // {
+    //     if (obj == this)
+    //     {
+    //         DisablePhysics();
+    //         // transform.SetParent(PlayerMotor.Instance.transform);
+    //         transform.SetParent(PlayerLook.Instance.FirstPersonCamera.transform);
+    //     }
+    // }
 
     private void DisablePhysics()
     {
