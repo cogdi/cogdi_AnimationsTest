@@ -4,6 +4,7 @@ using UnityEngine;
 public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private InteractableObjectVisual visual;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class InteractableObject : MonoBehaviour
         {
             EnablePhysics();
             transform.SetParent(null);
+            visual.RemoveHighlight();
         }
     }
 
@@ -26,8 +28,8 @@ public class InteractableObject : MonoBehaviour
         if (obj == this)
         {
             DisablePhysics();
-            // transform.SetParent(PlayerMotor.Instance.transform);
             PlayerLook.Instance.ParentObjectToFirstPersonCamera(transform);
+            visual.HighlightObjectHolded();
         }
     }
 
@@ -37,6 +39,7 @@ public class InteractableObject : MonoBehaviour
         {
             DisablePhysics();
             PlayerLook.Instance.ParentObjectToThirdPersonCamera(transform);
+            visual.HighlightObjectHolded();
         }
     }
 

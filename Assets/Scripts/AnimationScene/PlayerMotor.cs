@@ -24,11 +24,13 @@ public class PlayerMotor : MonoBehaviour
 
     [Header("Interactables")]
     [SerializeField] private LayerMask interactableLayerMask;
-    private float interactionDistance = 2f;
+    private float firstPersonInteractionDistance = 2f;
+    private float thirdPersonInteractionDistance = 9f;
     private float eyeLevel = 1.5f;
     private InteractableObject holdedItem;
-    //private bool isHoldingItem;
-    
+    private Vector3 cameraStartPoint;
+    private Vector3 cameraForward;
+    private InteractableObjectVisual pickableObjectVisual;    
 
     private PlayerLook playerLookInstance;
 
@@ -39,7 +41,6 @@ public class PlayerMotor : MonoBehaviour
 
     private void Start()
     {
-        //PlayerInput.Instance.OnInteractPerformed += PickUpFirstPerson;
         PlayerInput.Instance.OnInteractPerformed += PlayerInput_OnInteractPerformed;
         playerLookInstance = PlayerLook.Instance;
     }
@@ -80,7 +81,41 @@ public class PlayerMotor : MonoBehaviour
             currentSpeed = 0f;
         }
 
+        CheckInteractableObjects();
         Move();
+    }
+
+    private void CheckInteractableObjects()
+    {
+        if (holdedItem)
+            return;
+
+        if (playerLookInstance.FirstPersonMode)
+        {
+            cameraStartPoint = playerLookInstance.GetFirstPersonCameraPosition();
+            cameraForward = playerLookInstance.GetFirstPersonCameraForward();
+        }
+
+        else
+        {
+            cameraStartPoint = playerLookInstance.GetThirdPersonCameraPosition();
+            cameraForward = playerLookInstance.GetThirdPersonCameraForward();
+        }
+
+
+        Ray ray = new Ray(cameraStartPoint, cameraForward);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
+        {
+            pickableObjectVisual = hitInfo.transform.GetComponent<InteractableObjectVisual>();
+            pickableObjectVisual.HighlightPickableObject();
+            Debug.Log("Item highlited");
+        }
+
+        else if (pickableObjectVisual)
+        {
+            pickableObjectVisual.RemoveHighlight();
+            pickableObjectVisual = null;
+        }
     }
 
     private void Move()
@@ -110,12 +145,12 @@ public class PlayerMotor : MonoBehaviour
     private void PickUpFirstPerson()
     {
         Ray ray = new Ray(playerLookInstance.GetFirstPersonCameraPosition(), playerLookInstance.GetFirstPersonCameraForward());
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, firstPersonInteractionDistance, interactableLayerMask))
         {
-            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
+            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
             {
-                OnItemPickedUpFirstPerson?.Invoke(cube);
-                holdedItem = cube;
+                OnItemPickedUpFirstPerson?.Invoke(obj);
+                holdedItem = obj;
                 Debug.Log("Item picked up");
             }
         }
@@ -125,10 +160,10 @@ public class PlayerMotor : MonoBehaviour
     {
         if (Physics.Raycast(playerLookInstance.GetThirdPersonCameraPosition(), playerLookInstance.GetThirdPersonCameraForward(), out RaycastHit hitInfo, 9f))
         {
-            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
+            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
             {
-                OnItemPickedUpThirdPerson?.Invoke(cube);
-                holdedItem = cube;
+                OnItemPickedUpThirdPerson?.Invoke(obj);
+                holdedItem = obj;
                 Debug.Log("Item picked up");
             }
         }
