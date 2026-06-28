@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerMotor : MonoBehaviour
 {
     public static PlayerMotor Instance { get; private set; }
-    public event Action<InteractableObject> OnItemPickedUp;
+    public event Action<InteractableObject> OnItemPickedUpFirstPerson;
+    public event Action<InteractableObject> OnItemPickedUpThirdPerson;
     public event Action<InteractableObject> OnItemDropped;
 
 
@@ -29,6 +30,8 @@ public class PlayerMotor : MonoBehaviour
     //private bool isHoldingItem;
     
 
+    private PlayerLook playerLookInstance;
+
     private void Awake()
     {
         Instance = this;
@@ -38,6 +41,7 @@ public class PlayerMotor : MonoBehaviour
     {
         //PlayerInput.Instance.OnInteractPerformed += PickUpFirstPerson;
         PlayerInput.Instance.OnInteractPerformed += PlayerInput_OnInteractPerformed;
+        playerLookInstance = PlayerLook.Instance;
     }
 
     private void PlayerInput_OnInteractPerformed()
@@ -105,12 +109,12 @@ public class PlayerMotor : MonoBehaviour
 
     private void PickUpFirstPerson()
     {
-        Ray ray = new Ray(PlayerLook.Instance.GetCameraPosition(), PlayerLook.Instance.GetCameraTransformForward());
+        Ray ray = new Ray(playerLookInstance.GetFirstPersonCameraPosition(), playerLookInstance.GetFirstPersonCameraForward());
         if (Physics.Raycast(ray, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
             if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
             {
-                OnItemPickedUp?.Invoke(cube);
+                OnItemPickedUpFirstPerson?.Invoke(cube);
                 holdedItem = cube;
                 Debug.Log("Item picked up");
             }
@@ -119,11 +123,11 @@ public class PlayerMotor : MonoBehaviour
 
     private void PickUpThirdPerson()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, interactionDistance))
+        if (Physics.Raycast(playerLookInstance.GetThirdPersonCameraPosition(), playerLookInstance.GetThirdPersonCameraForward(), out RaycastHit hitInfo, 9f))
         {
             if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject cube))
             {
-                OnItemPickedUp?.Invoke(cube);
+                OnItemPickedUpThirdPerson?.Invoke(cube);
                 holdedItem = cube;
                 Debug.Log("Item picked up");
             }
