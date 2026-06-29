@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class InteractableObjectTrigger : MonoBehaviour
 {
-    // public event Action<GameObject> OnObjectEnteredTrigger;
     public event Action<InteractableObjectTrigger> OnObjectEnteredTrigger;
     public event Action OnObjectExitTrigger;
 
@@ -11,7 +10,6 @@ public class InteractableObjectTrigger : MonoBehaviour
     {
         if(PlayerMotor.Instance.IsInteractableObjectLayer(other.gameObject.layer))
         {
-            //OnObjectEnteredTrigger?.Invoke(gameObject);
             OnObjectEnteredTrigger?.Invoke(this);
         }
     }

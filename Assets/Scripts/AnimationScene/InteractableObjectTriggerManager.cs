@@ -5,10 +5,8 @@ using UnityEngine;
 public class InteractableObjectTriggerManager : MonoBehaviour
 {
     [SerializeField] private List<InteractableObjectTrigger> triggerList;
-    //private GameObject lastInteractedTrigger; 
     private InteractableObjectTrigger currentTrigger;
-    private Dictionary<InteractableObjectTrigger, bool> triggerActivationDictionary;
-    
+    private Dictionary<InteractableObjectTrigger, bool> triggerActivationDictionary;    
     private bool isInsideTrigger;
 
     private void Start()
@@ -33,8 +31,8 @@ public class InteractableObjectTriggerManager : MonoBehaviour
 
         for (int i = 0; i < triggerList.Count; i++)
         {
-            triggerList[i].OnObjectEnteredTrigger += TriggerList_OnObjectEnteredTrigger;
-            triggerList[i].OnObjectExitTrigger += TriggerList_OnObjectExitTrigger;
+            triggerList[i].OnObjectEnteredTrigger += AssignCurrentTrigger;
+            triggerList[i].OnObjectExitTrigger += DisassignCurrentTrigger;
         }  
     }
 
@@ -49,17 +47,16 @@ public class InteractableObjectTriggerManager : MonoBehaviour
         triggerActivationDictionary[currentTrigger] = true;
         currentTrigger.gameObject.SetActive(false);
 
-        currentTrigger = null;
-        isInsideTrigger = false;
+        DisassignCurrentTrigger();
     }
 
-    public void TriggerList_OnObjectEnteredTrigger(InteractableObjectTrigger trigger)
+    public void AssignCurrentTrigger(InteractableObjectTrigger trigger)
     {
         currentTrigger = trigger;
         isInsideTrigger = true;
     }
     
-    public void TriggerList_OnObjectExitTrigger()
+    public void DisassignCurrentTrigger()
     {
         currentTrigger = null;
         isInsideTrigger = false;
@@ -71,8 +68,8 @@ public class InteractableObjectTriggerManager : MonoBehaviour
 
         for (int i = 0; i < triggerList.Count; i++)
         {
-            triggerList[i].OnObjectEnteredTrigger -= TriggerList_OnObjectEnteredTrigger;
-            triggerList[i].OnObjectExitTrigger -= TriggerList_OnObjectExitTrigger;
+            triggerList[i].OnObjectEnteredTrigger -= AssignCurrentTrigger;
+            triggerList[i].OnObjectExitTrigger -= DisassignCurrentTrigger;
         }   
     }
 }

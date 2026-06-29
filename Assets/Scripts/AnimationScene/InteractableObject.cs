@@ -8,8 +8,7 @@ public class InteractableObject : MonoBehaviour
 
     private void Start()
     {
-        PlayerMotor.Instance.OnItemPickedUpFirstPerson += PlayerMotor_OnItemPickedUpFirstPerson;
-        PlayerMotor.Instance.OnItemPickedUpThirdPerson += PlayerMotor_OnItemPickedUpThirdPerson;
+        PlayerMotor.Instance.OnItemPickedUp += PlayerMotor_OnItemPickedUp;
         PlayerMotor.Instance.OnItemDropped += PlayerMotor_OnItemDropped;
     }
 
@@ -23,25 +22,16 @@ public class InteractableObject : MonoBehaviour
         }
     }
 
-    private void PlayerMotor_OnItemPickedUpFirstPerson(InteractableObject obj)
+    private void PlayerMotor_OnItemPickedUp(InteractableObject obj)
     {
         if (obj == this)
         {
             DisablePhysics();
-            PlayerLook.Instance.ParentObjectToFirstPersonCamera(transform);
+            PlayerLook.Instance.ParentObjectToCurrentCamera(transform);
             visual.HighlightObjectHolded();
         }
     }
 
-    private void PlayerMotor_OnItemPickedUpThirdPerson(InteractableObject obj)
-    {
-        if (obj == this)
-        {
-            DisablePhysics();
-            PlayerLook.Instance.ParentObjectToThirdPersonCamera(transform);
-            visual.HighlightObjectHolded();
-        }
-    }
 
     private void DisablePhysics()
     {

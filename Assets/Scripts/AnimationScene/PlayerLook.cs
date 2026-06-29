@@ -1,11 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
+    public enum CameraMode
+    {
+        FirstPerson,
+        ThirdPerson
+    }
+
     public static PlayerLook Instance { get; private set; }
-    // public Camera FirstPersonCamera { get => firstPersonCam; }
-    // public Camera ThirdPersonCamera { get => thirdPersonCam; }
-    public bool FirstPersonMode { get => firstPersonMode; }
+    public CameraMode CurrentCameraMode { get => cameraMode; }
 
     [SerializeField] private Camera firstPersonCam;
     [SerializeField] private Camera thirdPersonCam;
@@ -17,14 +22,24 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float cameraLowerClamp = 60f;
     private float inputX = 0f;
     private float inputY = 0f;
-    private bool firstPersonMode = true;
+    private CameraMode cameraMode;
+    private Dictionary<CameraMode, Camera> cameraDictionary;
 
 
     private void Awake()
     {
         Instance = this;
 
+        FillCameraDictionary();
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void FillCameraDictionary()
+    {
+        cameraDictionary = new Dictionary<CameraMode, Camera>();
+
+        cameraDictionary[CameraMode.FirstPerson] = firstPersonCam;
+        cameraDictionary[CameraMode.ThirdPerson] = thirdPersonCam;
     }
 
     private void Start()
@@ -34,24 +49,26 @@ public class PlayerLook : MonoBehaviour
 
     private void PlayerInput_OnSwitchCameraTriggered()
     {
-        if (firstPersonMode)
+        if (cameraMode == CameraMode.FirstPerson)
         {
             firstPersonCam.gameObject.SetActive(false);
             thirdPersonCam.gameObject.SetActive(true);
+
+            cameraMode = CameraMode.ThirdPerson;
         }
 
         else
         {
-            firstPersonCam.gameObject.SetActive(true);
             thirdPersonCam.gameObject.SetActive(false);
-        }
+            firstPersonCam.gameObject.SetActive(true);
 
-        firstPersonMode = !firstPersonMode;
+            cameraMode = CameraMode.FirstPerson;
+        }
     }
 
     private void LateUpdate()
     {
-        if (firstPersonMode)
+        if (cameraMode == CameraMode.FirstPerson)
             FirstPersonLook();    
         else
             ThirdPersonLook();
@@ -84,33 +101,18 @@ public class PlayerLook : MonoBehaviour
         Debug.DrawRay(thirdPersonCam.transform.position, thirdPersonCam.transform.forward * 9f, Color.blue);
     }
 
-    public Vector3 GetFirstPersonCameraPosition()
+    public Vector3 GetCurrentCameraPosition()
     {
-        return firstPersonCam.transform.position;
+        return cameraDictionary[cameraMode].transform.position;
     }
 
-    public Vector3 GetFirstPersonCameraForward()
+    public Vector3 GetCurrentCameraForward()
     {
-        return firstPersonCam.transform.forward;
+        return cameraDictionary[cameraMode].transform.forward;
     }
 
-    public Vector3 GetThirdPersonCameraPosition()
+    public void ParentObjectToCurrentCamera(Transform obj)
     {
-        return thirdPersonCam.transform.position;
-    }
-
-    public Vector3 GetThirdPersonCameraForward()
-    {
-        return thirdPersonCam.transform.forward;
-    }
-
-    public void ParentObjectToFirstPersonCamera(Transform obj)
-    {
-        obj.SetParent(firstPersonCam.transform);
-    }
-
-    public void ParentObjectToThirdPersonCamera(Transform obj)
-    {
-        obj.SetParent(thirdPersonCam.transform);
+        obj.SetParent(cameraDictionary[cameraMode].transform);
     }
 }

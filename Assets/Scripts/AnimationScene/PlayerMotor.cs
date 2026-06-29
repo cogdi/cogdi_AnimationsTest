@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerMotor : MonoBehaviour
 {
     public static PlayerMotor Instance { get; private set; }
-    public event Action<InteractableObject> OnItemPickedUpFirstPerson;
-    public event Action<InteractableObject> OnItemPickedUpThirdPerson;
+    public event Action<InteractableObject> OnItemPickedUp;
     public event Action<InteractableObject> OnItemDropped;
 
 
@@ -49,10 +48,7 @@ public class PlayerMotor : MonoBehaviour
     {
         if (!holdedItem)
         {
-            if (PlayerLook.Instance.FirstPersonMode)
-                PickUpFirstPerson();
-            else
-                PickUpThirdPerson();
+            PickUpItem();
         }
 
         else
@@ -90,18 +86,8 @@ public class PlayerMotor : MonoBehaviour
         if (holdedItem)
             return;
 
-        if (playerLookInstance.FirstPersonMode)
-        {
-            cameraStartPoint = playerLookInstance.GetFirstPersonCameraPosition();
-            cameraForward = playerLookInstance.GetFirstPersonCameraForward();
-        }
-
-        else
-        {
-            cameraStartPoint = playerLookInstance.GetThirdPersonCameraPosition();
-            cameraForward = playerLookInstance.GetThirdPersonCameraForward();
-        }
-
+        cameraStartPoint = playerLookInstance.GetCurrentCameraPosition();
+        cameraForward = playerLookInstance.GetCurrentCameraForward();
 
         Ray ray = new Ray(cameraStartPoint, cameraForward);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
@@ -142,27 +128,14 @@ public class PlayerMotor : MonoBehaviour
         return interactableLayerMask == (interactableLayerMask | 1 << layer);
     }
 
-    private void PickUpFirstPerson()
+    private void PickUpItem()
     {
-        Ray ray = new Ray(playerLookInstance.GetFirstPersonCameraPosition(), playerLookInstance.GetFirstPersonCameraForward());
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, firstPersonInteractionDistance, interactableLayerMask))
+        Ray ray = new Ray(playerLookInstance.GetCurrentCameraPosition(), playerLookInstance.GetCurrentCameraForward());
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
         {
             if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
             {
-                OnItemPickedUpFirstPerson?.Invoke(obj);
-                holdedItem = obj;
-                Debug.Log("Item picked up");
-            }
-        }
-    }
-
-    private void PickUpThirdPerson()
-    {
-        if (Physics.Raycast(playerLookInstance.GetThirdPersonCameraPosition(), playerLookInstance.GetThirdPersonCameraForward(), out RaycastHit hitInfo, 9f))
-        {
-            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
-            {
-                OnItemPickedUpThirdPerson?.Invoke(obj);
+                OnItemPickedUp?.Invoke(obj);
                 holdedItem = obj;
                 Debug.Log("Item picked up");
             }
