@@ -10,7 +10,6 @@ public class PlayerLook : MonoBehaviour
     }
 
     public static PlayerLook Instance { get; private set; }
-    public CameraMode CurrentCameraMode { get => cameraMode; }
 
     [SerializeField] private PlayerInput playerInputInstance;
     [SerializeField] private Camera firstPersonCam;

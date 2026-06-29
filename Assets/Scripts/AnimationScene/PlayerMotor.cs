@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
@@ -24,8 +23,7 @@ public class PlayerMotor : MonoBehaviour
 
     [Header("Interactables")]
     [SerializeField] private LayerMask interactableLayerMask;
-    private float firstPersonInteractionDistance = 2f;
-    private float thirdPersonInteractionDistance = 4f;
+    private float interactionDistance = 4f;
     private InteractableObject holdedItem;
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
@@ -94,7 +92,7 @@ public class PlayerMotor : MonoBehaviour
         if (holdedItem)
             return;
 
-        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
+        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
             pickableObjectVisual = hitInfo.transform.GetComponent<InteractableObjectVisual>();
             pickableObjectVisual.HighlightPickableObject();
@@ -134,7 +132,7 @@ public class PlayerMotor : MonoBehaviour
 
     private void PickUpItem()
     {
-        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
+        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
             if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
             {
