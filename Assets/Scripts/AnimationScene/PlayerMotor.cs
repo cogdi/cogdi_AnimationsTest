@@ -11,6 +11,7 @@ public class PlayerMotor : MonoBehaviour
 
     [Header("Movement")]
     public float PlayerSpeed { get => currentSpeed; }
+    [SerializeField] private PlayerInput playerInputInstance;
 
     [SerializeField] private CharacterController controller;
     [SerializeField] private float maxSpeed = 5f;
@@ -24,8 +25,7 @@ public class PlayerMotor : MonoBehaviour
     [Header("Interactables")]
     [SerializeField] private LayerMask interactableLayerMask;
     private float firstPersonInteractionDistance = 2f;
-    private float thirdPersonInteractionDistance = 9f;
-    private float eyeLevel = 1.5f;
+    private float thirdPersonInteractionDistance = 4f;
     private InteractableObject holdedItem;
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
@@ -35,12 +35,17 @@ public class PlayerMotor : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
     private void Start()
     {
-        PlayerInput.Instance.OnInteractPerformed += PlayerInput_OnInteractPerformed;
+        playerInputInstance.OnInteractPerformed += PlayerInput_OnInteractPerformed;
         playerLookInstance = PlayerLook.Instance;
     }
 
@@ -83,14 +88,13 @@ public class PlayerMotor : MonoBehaviour
 
     private void CheckInteractableObjects()
     {
-        if (holdedItem)
-            return;
-
         cameraStartPoint = playerLookInstance.GetCurrentCameraPosition();
         cameraForward = playerLookInstance.GetCurrentCameraForward();
 
-        Ray ray = new Ray(cameraStartPoint, cameraForward);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
+        if (holdedItem)
+            return;
+
+        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
         {
             pickableObjectVisual = hitInfo.transform.GetComponent<InteractableObjectVisual>();
             pickableObjectVisual.HighlightPickableObject();
@@ -106,7 +110,7 @@ public class PlayerMotor : MonoBehaviour
 
     private void Move()
     {
-        Vector2 inputVector = PlayerInput.Instance.GetMovementVectorNormalized();
+        Vector2 inputVector = playerInputInstance.GetMovementVectorNormalized();
         Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
 
         controller.Move(transform.TransformDirection(moveDirection) * (currentSpeed * Time.deltaTime));
@@ -130,8 +134,7 @@ public class PlayerMotor : MonoBehaviour
 
     private void PickUpItem()
     {
-        Ray ray = new Ray(playerLookInstance.GetCurrentCameraPosition(), playerLookInstance.GetCurrentCameraForward());
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
+        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, thirdPersonInteractionDistance, interactableLayerMask))
         {
             if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
             {
@@ -151,6 +154,6 @@ public class PlayerMotor : MonoBehaviour
 
     private bool IsMoving()
     {
-        return PlayerInput.Instance.GetMovementVectorNormalized().magnitude > 0f;
+        return playerInputInstance.GetMovementVectorNormalized().magnitude > 0f;
     }
 }

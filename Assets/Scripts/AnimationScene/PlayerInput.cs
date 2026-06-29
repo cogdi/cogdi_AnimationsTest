@@ -4,20 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    public static PlayerInput Instance { get; private set; }
-
     public event Action OnSwitchCameraTriggered;
     public event Action OnInteractPerformed;
 
     private PlayerInputActions playerInputActions;
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
 
     private void Start()
     {
@@ -26,7 +16,6 @@ public class PlayerInput : MonoBehaviour
         playerInputActions.OnFoot.SwitchCamera.performed += SwitchCamera_Triggered;
         
         playerInputActions.OnFoot.Interact.performed += Ineract_Performed;
-
     }
 
     private void Ineract_Performed(InputAction.CallbackContext context)

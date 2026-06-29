@@ -12,6 +12,7 @@ public class PlayerLook : MonoBehaviour
     public static PlayerLook Instance { get; private set; }
     public CameraMode CurrentCameraMode { get => cameraMode; }
 
+    [SerializeField] private PlayerInput playerInputInstance;
     [SerializeField] private Camera firstPersonCam;
     [SerializeField] private Camera thirdPersonCam;
     [SerializeField] private Transform cameraOffset;
@@ -28,6 +29,11 @@ public class PlayerLook : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
 
         FillCameraDictionary();
@@ -44,7 +50,7 @@ public class PlayerLook : MonoBehaviour
 
     private void Start()
     {
-        PlayerInput.Instance.OnSwitchCameraTriggered += PlayerInput_OnSwitchCameraTriggered;
+        playerInputInstance.OnSwitchCameraTriggered += PlayerInput_OnSwitchCameraTriggered;
     }
 
     private void PlayerInput_OnSwitchCameraTriggered()
@@ -76,8 +82,8 @@ public class PlayerLook : MonoBehaviour
 
     private void FirstPersonLook()
     {
-        inputX += PlayerInput.Instance.GetLookVector().x;
-        inputY += PlayerInput.Instance.GetLookVector().y;
+        inputX += playerInputInstance.GetLookVector().x;
+        inputY += playerInputInstance.GetLookVector().y;
 
         Vector3 lookRotation = new Vector3(-inputY * firstPersonVerticalSensitivity, inputX * firstPersonHorizontalSensitivity, 0f);
 
@@ -87,8 +93,8 @@ public class PlayerLook : MonoBehaviour
 
     private void ThirdPersonLook()
     {
-        inputX += PlayerInput.Instance.GetLookVector().x;
-        inputY += PlayerInput.Instance.GetLookVector().y;
+        inputX += playerInputInstance.GetLookVector().x;
+        inputY += playerInputInstance.GetLookVector().y;
 
         cameraOffset.transform.rotation = Quaternion.Euler(Mathf.Clamp(-inputY * thirdPersonSensitivity, cameraLowerClamp, cameraUpperClamp), inputX * thirdPersonSensitivity, 0f);
 
