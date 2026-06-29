@@ -28,6 +28,7 @@ public class PlayerMotor : MonoBehaviour
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
     private InteractableObjectVisual pickableObjectVisual;    
+    //private InteractableObjectVisual pickableObjectVisual;    
 
     private PlayerLook playerLookInstance;
 
@@ -94,9 +95,12 @@ public class PlayerMotor : MonoBehaviour
 
         if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
-            pickableObjectVisual = hitInfo.transform.GetComponent<InteractableObjectVisual>();
-            pickableObjectVisual.HighlightPickableObject();
-            Debug.Log("Item highlited");
+            if (!pickableObjectVisual)
+            {
+                pickableObjectVisual = hitInfo.transform.GetComponent<InteractableObjectVisual>();
+                pickableObjectVisual.HighlightPickableObject();
+                Debug.Log("Item highlited");
+            }
         }
 
         else if (pickableObjectVisual)
