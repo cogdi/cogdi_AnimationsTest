@@ -1,14 +1,33 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableObjectTriggerManager : MonoBehaviour
 {
     [SerializeField] private List<InteractableObjectTrigger> triggerList;
-    private GameObject lastInteractedTrigger; 
-    // private Transform lastInteractedObject;
+    //private GameObject lastInteractedTrigger; 
+    private InteractableObjectTrigger currentTrigger;
+    private Dictionary<InteractableObjectTrigger, bool> triggerActivationDictionary;
+    
     private bool isInsideTrigger;
 
     private void Start()
+    {
+        SubscribeToEvents();
+        FillDictionary();
+    }
+
+    private void FillDictionary()
+    {
+        triggerActivationDictionary = new Dictionary<InteractableObjectTrigger, bool>();
+
+        for (int i = 0; i < triggerList.Count; i++)
+        {
+            triggerActivationDictionary[triggerList[i]] = false;
+        }
+    }
+
+    private void SubscribeToEvents()
     {
         PlayerMotor.Instance.OnItemDropped += AttachToTrigger;
 
@@ -16,30 +35,33 @@ public class InteractableObjectTriggerManager : MonoBehaviour
         {
             triggerList[i].OnObjectEnteredTrigger += TriggerList_OnObjectEnteredTrigger;
             triggerList[i].OnObjectExitTrigger += TriggerList_OnObjectExitTrigger;
-        }   
+        }  
     }
 
     public void AttachToTrigger(InteractableObject obj)
     {
-        if (!lastInteractedTrigger)
+        if (!currentTrigger)
             return;
 
-        //lastInteractedObject = obj.gameObject.transform;
-        obj.transform.position = lastInteractedTrigger.transform.position;
-        obj.transform.rotation = lastInteractedTrigger.transform.rotation;
-        lastInteractedTrigger = null;
+        obj.transform.position = currentTrigger.transform.position;
+        obj.transform.rotation = currentTrigger.transform.rotation;
+
+        triggerActivationDictionary[currentTrigger] = true;
+        currentTrigger.gameObject.SetActive(false);
+
+        currentTrigger = null;
         isInsideTrigger = false;
     }
 
-    public void TriggerList_OnObjectEnteredTrigger(GameObject trigger)
+    public void TriggerList_OnObjectEnteredTrigger(InteractableObjectTrigger trigger)
     {
-        lastInteractedTrigger = trigger;
+        currentTrigger = trigger;
         isInsideTrigger = true;
     }
     
     public void TriggerList_OnObjectExitTrigger()
     {
-        lastInteractedTrigger = null;
+        currentTrigger = null;
         isInsideTrigger = false;
     }
 
