@@ -7,14 +7,17 @@ public class PlayerMotor : MonoBehaviour
     public event Action<InteractableObject> OnItemPickedUp;
     public event Action<InteractableObject> OnItemDropped;
 
-
     [Header("Movement")]
     public float PlayerSpeed { get => currentSpeed; }
     [SerializeField] private PlayerInput playerInputInstance;
 
     [SerializeField] private CharacterController controller;
-    [SerializeField] private float maxSpeed = 5f;
-    [SerializeField] private float acceleration = 0.6f;
+    [SerializeField] private float walkingSpeed; // 2f.
+    [SerializeField] private float runningSpeed; // 5f.
+    [SerializeField] private float acceleration; // 1f.
+    [SerializeField] private float deceleration; // 6f.
+
+    private float desiredSpeed;
     private float currentSpeed = 0f;
     private float gravity = -9.8f;
     private Vector3 velocity;
@@ -27,8 +30,7 @@ public class PlayerMotor : MonoBehaviour
     private InteractableObject holdedItem;
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
-    private InteractableObjectVisual pickableObjectVisual;    
-    //private InteractableObjectVisual pickableObjectVisual;    
+    private InteractableObjectVisual pickableObjectVisual; 
 
     private PlayerLook playerLookInstance;
 
@@ -63,22 +65,29 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("Current speed: " + currentSpeed);
+
         if (IsMoving())
         {
-            if (currentSpeed <= maxSpeed)
+            desiredSpeed = playerInputInstance.IsRunKeyHolded() ? runningSpeed : walkingSpeed;
+
+            if (currentSpeed <= desiredSpeed)
             {
                 currentSpeed += acceleration * Time.deltaTime;
             }
 
             else
             {
-                currentSpeed = maxSpeed;
+                currentSpeed = desiredSpeed;
             }
         }
 
         else
         {
-            currentSpeed = 0f;
+            if (currentSpeed > 0f)
+                currentSpeed -= deceleration * Time.deltaTime;
+            else
+                currentSpeed = 0f;
         }
 
         CheckInteractableObjects();

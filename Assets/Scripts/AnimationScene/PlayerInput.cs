@@ -15,10 +15,10 @@ public class PlayerInput : MonoBehaviour
         playerInputActions.OnFoot.Enable();
         playerInputActions.OnFoot.SwitchCamera.performed += SwitchCamera_Triggered;
         
-        playerInputActions.OnFoot.Interact.performed += Ineract_Performed;
+        playerInputActions.OnFoot.Interact.performed += Interact_Performed;
     }
 
-    private void Ineract_Performed(InputAction.CallbackContext context)
+    private void Interact_Performed(InputAction.CallbackContext context)
     {
         OnInteractPerformed?.Invoke();
     }
@@ -36,5 +36,10 @@ public class PlayerInput : MonoBehaviour
     public Vector2 GetMovementVectorNormalized()
     {
         return playerInputActions.OnFoot.Move.ReadValue<Vector2>().normalized;
+    }
+
+    public bool IsRunKeyHolded()
+    {
+        return playerInputActions.OnFoot.Run.IsPressed();
     }
 }

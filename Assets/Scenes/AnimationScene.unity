@@ -1260,6 +1260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FirefighterAnimations
   animator: {fileID: 5866666020748729870}
+  playerInputInstance: {fileID: 5866666020748729873}
 --- !u!1 &1234130362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2867,8 +2868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   playerInputInstance: {fileID: 5866666020748729873}
   controller: {fileID: 5866666020748729874}
-  maxSpeed: 5
-  acceleration: 0.3
+  walkingSpeed: 1.67
+  runningSpeed: 5
+  acceleration: 1.5
   interactableLayerMask:
     serializedVersion: 2
     m_Bits: 64
