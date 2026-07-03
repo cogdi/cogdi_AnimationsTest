@@ -65,8 +65,6 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Current speed: " + currentSpeed);
-
         if (IsMoving())
         {
             desiredSpeed = playerInputInstance.IsRunKeyHolded() ? runningSpeed : walkingSpeed;

@@ -37,6 +37,7 @@ public class PlayerLook : MonoBehaviour
 
         FillCameraDictionary();
         Cursor.lockState = CursorLockMode.Locked;
+        cameraMode = CameraMode.FirstPerson;
     }
 
     private void FillCameraDictionary()

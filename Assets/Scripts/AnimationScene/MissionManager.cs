@@ -7,7 +7,9 @@ public class MissionManager : MonoBehaviour
 
     public event Action OnMissionStarted;
 
+
     private bool missionStarted;
+    private bool isEquipped;
 
     private void Awake()
     {
