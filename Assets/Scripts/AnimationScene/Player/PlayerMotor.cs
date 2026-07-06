@@ -1,11 +1,10 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
 {
     public static PlayerMotor Instance { get; private set; }
-    public event Action<InteractableObject> OnItemPickedUp;
-    public event Action<InteractableObject> OnItemDropped;
 
     [Header("Movement")]
     public float PlayerSpeed { get => currentSpeed; }
@@ -27,10 +26,11 @@ public class PlayerMotor : MonoBehaviour
     [Header("Interactables")]
     [SerializeField] private LayerMask interactableLayerMask;
     private float interactionDistance = 4f;
-    private InteractableObject holdedItem;
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
-    private InteractableObjectVisual pickableObjectVisual; 
+    public  bool IsLookingAtObject { get => isLookingAtObject; }
+    private bool isLookingAtObject;
+    private IInteractable highlightedObject;
 
     private PlayerLook playerLookInstance;
 
@@ -52,18 +52,23 @@ public class PlayerMotor : MonoBehaviour
 
     private void PlayerInput_OnInteractPerformed()
     {
-        if (!holdedItem)
+        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
-            PickUpItem();
-        }
-
-        else
-        {
-            DropItem();
+            if (hitInfo.transform.TryGetComponent(out IInteractable obj))
+            {
+                obj.Interact();
+            }
         }
     }
 
     private void Update()
+    {
+        HandlePlayerSpeed();
+        HighlightInteractableObjects();
+        Move();
+    }
+
+    private void HandlePlayerSpeed()
     {
         if (IsMoving())
         {
@@ -87,33 +92,28 @@ public class PlayerMotor : MonoBehaviour
             else
                 currentSpeed = 0f;
         }
-
-        CheckInteractableObjects();
-        Move();
     }
 
-    private void CheckInteractableObjects()
+    private void HighlightInteractableObjects()
     {
         cameraStartPoint = playerLookInstance.GetCurrentCameraPosition();
         cameraForward = playerLookInstance.GetCurrentCameraForward();
-
-        if (holdedItem)
-            return;
-
+        
         if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
-            if (!pickableObjectVisual)
+            if (highlightedObject == null)
             {
-                pickableObjectVisual = hitInfo.transform.GetComponent<InteractableObjectVisual>();
-                pickableObjectVisual.HighlightPickableObject();
-                Debug.Log("Item highlited");
+                isLookingAtObject = true;
+                highlightedObject = hitInfo.transform.GetComponent<IInteractable>();
+                highlightedObject.HandleHighlight();
             }
         }
 
-        else if (pickableObjectVisual)
+        else if (highlightedObject != null)
         {
-            pickableObjectVisual.RemoveHighlight();
-            pickableObjectVisual = null;
+            isLookingAtObject = false;
+            highlightedObject.HandleHighlight();
+            highlightedObject = null;
         }
     }
 
@@ -139,26 +139,6 @@ public class PlayerMotor : MonoBehaviour
     public bool IsInteractableObjectLayer(int layer)
     {
         return interactableLayerMask == (interactableLayerMask | 1 << layer);
-    }
-
-    private void PickUpItem()
-    {
-        if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
-        {
-            if (hitInfo.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject obj))
-            {
-                OnItemPickedUp?.Invoke(obj);
-                holdedItem = obj;
-                Debug.Log("Item picked up");
-            }
-        }
-    }
-
-    private void DropItem()
-    {
-        OnItemDropped?.Invoke(holdedItem);
-        holdedItem = null;
-        Debug.Log("Item dropped");
     }
 
     private bool IsMoving()

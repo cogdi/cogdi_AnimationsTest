@@ -24,9 +24,6 @@ public class MissionManager : MonoBehaviour
 
     private void Update()
     {
-        if (!missionStarted && PlayerMotor.Instance.PlayerSpeed >= 5f) // Debug logic.
-        {
-            OnMissionStarted?.Invoke();
-        }
+        
     }
 }
