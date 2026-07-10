@@ -9,12 +9,16 @@ public class InteractableObjectVisual : MonoBehaviour
     private Color holdedItemOutlineColor = Color.orange;
     private Color pickableItemOutlineColor = Color.green;
 
-    private Renderer meshRenderer;
+    [SerializeField] private Renderer meshRenderer;
     private MaterialPropertyBlock block;
     
     private void Awake()
     {
-        meshRenderer = GetComponent<Renderer>();
+        if (TryGetComponent(out Renderer renderer))
+            meshRenderer = renderer;
+        else
+            Debug.LogError("There's no mesh renderer on this GameObject: " + name + ". Please, insert a reference manually!");
+
         block = new MaterialPropertyBlock();
     }
 

@@ -15,6 +15,8 @@ public class PickableObject : MonoBehaviour, IInteractable
     {
         DisablePhysics();
         PlayerLook.Instance.ParentObjectToCurrentCamera(transform);
+
+        transform.position = PlayerMotor.Instance.PlayerHands.position;
     }
 
     private void Drop()

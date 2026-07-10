@@ -6,8 +6,8 @@ public class PlayerMotor : MonoBehaviour
 {
     public static PlayerMotor Instance { get; private set; }
 
-    [Header("Movement")]
     public float PlayerSpeed { get => currentSpeed; }
+    [Header("Movement")]
     [SerializeField] private PlayerInput playerInputInstance;
 
     [SerializeField] private CharacterController controller;
@@ -22,17 +22,23 @@ public class PlayerMotor : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
 
+    public bool IsLookingAtObject { get => isLookingAtObject; }
 
     [Header("Interactables")]
     [SerializeField] private LayerMask interactableLayerMask;
     private float interactionDistance = 4f;
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
-    public  bool IsLookingAtObject { get => isLookingAtObject; }
     private bool isLookingAtObject;
     private IInteractable highlightedObject;
 
     private PlayerLook playerLookInstance;
+
+    public Transform PlayerHands { get => playerHands; }
+
+    [Header("Tools")]
+    [SerializeField] private Transform playerHands;
+
 
     private void Awake()
     {
