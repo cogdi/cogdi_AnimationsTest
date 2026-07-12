@@ -5,9 +5,9 @@ public class InteractableObjectVisual : MonoBehaviour
 {
     private static readonly int OutlineWidthID = Shader.PropertyToID("_OutlineWidth");
     private static readonly int OutlineColorID = Shader.PropertyToID("_OutlineColor");
-    private float outlineWidth = 1.05f;
+    private float outlineWidth = 1.02f;
     private Color holdedItemOutlineColor = Color.orange;
-    private Color pickableItemOutlineColor = Color.green;
+    private Color pickableItemOutlineColor = Color.white;
 
     [SerializeField] private Renderer meshRenderer;
     private MaterialPropertyBlock block;

@@ -4,10 +4,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
+    public static PlayerInput Instance { get; private set; }
+
     public event Action OnSwitchCameraTriggered;
     public event Action OnInteractPerformed;
 
     private PlayerInputActions playerInputActions;
+
+    private const string KEYBOARD_BINDING_GROUP = "Keyboard&Mouse";
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(Instance);
+            return;
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -41,5 +55,10 @@ public class PlayerInput : MonoBehaviour
     public bool IsRunKeyHolded()
     {
         return playerInputActions.OnFoot.Run.IsPressed();
+    }
+
+    public string GetInteractInputBindingString()
+    {
+        return playerInputActions.OnFoot.Interact.GetBindingDisplayString(group: KEYBOARD_BINDING_GROUP);
     }
 }

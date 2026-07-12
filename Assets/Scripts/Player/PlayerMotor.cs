@@ -112,6 +112,7 @@ public class PlayerMotor : MonoBehaviour
                 isLookingAtObject = true;
                 highlightedObject = hitInfo.transform.GetComponent<IInteractable>();
                 highlightedObject.HandleHighlight();
+                PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
             }
         }
 
@@ -120,6 +121,7 @@ public class PlayerMotor : MonoBehaviour
             isLookingAtObject = false;
             highlightedObject.HandleHighlight();
             highlightedObject = null;
+            PlayerUI.Instance.DiscardCurrentActionmessage();
         }
     }
 

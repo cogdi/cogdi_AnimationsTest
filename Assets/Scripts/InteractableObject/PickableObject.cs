@@ -1,5 +1,4 @@
 using System;
-using NUnit.Framework;
 using UnityEngine;
 
 public class PickableObject : MonoBehaviour, IInteractable
@@ -10,13 +9,12 @@ public class PickableObject : MonoBehaviour, IInteractable
 
     private bool isHolded = false;
     private bool isHighlited = false;
+    private const string ACTION_MESSAGE = "Взять";
 
     private void PickUp()
     {
         DisablePhysics();
         PlayerLook.Instance.ParentObjectToCurrentCamera(transform);
-
-        transform.position = PlayerMotor.Instance.PlayerHands.position;
     }
 
     private void Drop()
@@ -61,5 +59,10 @@ public class PickableObject : MonoBehaviour, IInteractable
             visual.Highlight(isHolded);
         else
             visual.RemoveHighlight();
+    }
+
+    public string GetActionMessage()
+    {
+        return ACTION_MESSAGE;
     }
 }
