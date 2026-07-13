@@ -15,6 +15,7 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float runningSpeed; // 5f.
     [SerializeField] private float acceleration; // 1f.
     [SerializeField] private float deceleration; // 6f.
+    private bool movementEnabled;
 
     private float desiredSpeed;
     private float currentSpeed = 0f;
@@ -42,6 +43,8 @@ public class PlayerMotor : MonoBehaviour
 
     private void Awake()
     {
+        EnableMovement();
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -69,9 +72,13 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
-        HandlePlayerSpeed();
         HighlightInteractableObjects();
-        Move();
+
+        if (movementEnabled)
+        {
+            HandlePlayerSpeed();
+            Move();
+        }
     }
 
     private void HandlePlayerSpeed()
@@ -142,6 +149,18 @@ public class PlayerMotor : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
 
         isGrounded = controller.isGrounded;
+    }
+
+    public void DisableMovement()
+    {
+        controller.enabled = false;
+        movementEnabled = false;
+    }
+
+    public void EnableMovement()
+    {
+        controller.enabled = true;
+        movementEnabled = true;
     }
 
     public bool IsInteractableObjectLayer(int layer)

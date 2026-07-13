@@ -1,10 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
 public class Pole : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform playerAttachPoint;
+    [SerializeField] private Transform playerLandingPoint;
+
     [SerializeField] private InteractableObjectVisual visual;
     private const string ACTION_MESSAGE = "Спуститься";
+    private float interactionDistance = 5f;
+    private float slideSpeed = 8.25f;
+
+    private Transform playerTransform;
 
     public string GetActionMessage()
     {
@@ -13,7 +20,34 @@ public class Pole : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("Interacting with a pole");
+        playerTransform = PlayerMotor.Instance.transform;
+
+        if (Vector3.Distance(playerTransform.position, transform.position) < interactionDistance)
+        {
+            StartCoroutine(SlideDownPole());
+        }
+    }
+
+    private IEnumerator SlideDownPole()
+    {
+        PlayerMotor.Instance.DisableMovement();
+
+        playerTransform.position = playerAttachPoint.position;
+        playerTransform.rotation = playerAttachPoint.rotation;
+
+        while (Vector3.Distance(playerTransform.position, playerLandingPoint.position) > 0.02f)
+        {
+            playerTransform.position = Vector3.MoveTowards(
+                playerTransform.position,
+                playerLandingPoint.position,
+                slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        playerTransform.position = playerLandingPoint.position;
+
+        PlayerMotor.Instance.EnableMovement();
     }
 
     public void HandleHighlight()
