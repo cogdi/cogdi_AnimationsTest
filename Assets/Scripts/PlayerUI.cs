@@ -5,6 +5,7 @@ public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI Instance { get; private set; }
 
+    [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject missionPanel;
     [SerializeField] private GameObject actionMessagePanel;
     [SerializeField] private TextMeshProUGUI actionMessageButtonText;
@@ -36,14 +37,25 @@ public class PlayerUI : MonoBehaviour
     {
         if (!actionMessagePanel.activeSelf)
         {
+            crosshair.SetActive(false);
+
             actionMessageButtonText.text = PlayerInput.Instance.GetInteractInputBindingString();
             actionMessageText.text = message;
             actionMessagePanel.SetActive(true);
+        
+            Debug.Log("Action message showing from UI_CLASS");
         }
     }
 
-    public void DiscardCurrentActionmessage()
+    public void DiscardCurrentActionMessage()
     {
-        actionMessagePanel.SetActive(false);
+        if (actionMessagePanel.activeSelf)
+        {
+            crosshair.SetActive(true);
+            
+            actionMessagePanel.SetActive(false);
+
+            Debug.Log("Action message dissssssscarding from UI_CLASS");
+        }
     }
 }

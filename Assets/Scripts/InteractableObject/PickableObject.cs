@@ -1,62 +1,96 @@
 using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class PickableObject : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private InteractableObjectVisual visual;
+    public static event Action<PickableObject> OnObjectPickedUp;
+
+    protected Rigidbody rb;
+    protected InteractableObjectVisual visual;
+    protected Transform playerHands;
     public bool IsHolded { get => isHolded; }
 
-    private bool isHolded = false;
-    private bool isHighlited = false;
-    private const string ACTION_MESSAGE = "Взять";
+    protected bool isHolded = false;
+    protected bool isHighlited = false;
+    protected const string ACTION_MESSAGE = "Взять";
 
-    private void PickUp()
+    private void Awake()
     {
-        DisablePhysics();
-        PlayerLook.Instance.ParentObjectToCurrentCamera(transform);
+        rb = GetComponent<Rigidbody>();
+        visual = GetComponent<InteractableObjectVisual>();
     }
 
-    private void Drop()
+    protected void Start()
     {
-        EnablePhysics();
-        transform.SetParent(null);
+        //playerHands = PlayerMotor.Instance.PlayerHands;
     }
 
+    // protected void PickUp()
+    // {
+        //OnObjectPickedUp?.Invoke(this);
+        
+        // DisablePhysics();
 
-    private void DisablePhysics()
+        // transform.SetParent(playerHands.transform);
+        // transform.position = playerHands.position;
+        // //PlayerLook.Instance.ParentObjectToCurrentCamera(transform);
+    // }
+
+    // protected void Drop()
+    // {
+    //     Debug.Log("Dropping PO");
+
+    //     EnablePhysics();
+    //     transform.SetParent(null);
+    // }
+
+
+    public void DisablePhysics()
     {
         rb.useGravity = false;
         rb.isKinematic = true;
     }
 
-    private void EnablePhysics()
+    public void EnablePhysics()
     {
         rb.isKinematic = false;
         rb.useGravity = true;
     }
 
+    // public void Interact()
+    // {
+    //     Debug.Log("Interacted");
+        
+    //     if (isHolded)
+    //     {
+    //         visual.RemoveHighlight();
+    //         Drop();
+    //     }
+
+    //     else
+    //     {
+    //         visual.Highlight(true);
+    //         PickUp();
+    //     }
+
+    //     isHolded = !isHolded;
+    // }
+
     public void Interact()
     {
-        if (isHolded)
-        {
-            visual.RemoveHighlight();
-            Drop();
-        }
+        Debug.Log("Interacted");
 
-        else
-        {
-            visual.Highlight(true);
-            PickUp();
-        }
-
-        isHolded = !isHolded;
+        visual.RemoveHighlight();
+        PlayerHands.Instance.TryAddItem(this);
     }
 
     public void HandleHighlight()
     {
         if (PlayerMotor.Instance.IsLookingAtObject)
-            visual.Highlight(isHolded);
+            // visual.Highlight(isHolded);
+            visual.Highlight();
+
         else
             visual.RemoveHighlight();
     }

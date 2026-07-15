@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class Firetruck : MonoBehaviour, IInteractable
+public class Door : MonoBehaviour, IInteractable
 {
     private InteractableObjectVisual visual;
-    private const string ACTION_MESSAGE = "Выехать на вызов";
+    private const string ACTION_MESSAGE = "Дверь заперта";
+    private bool isOpen;
+    private Collider colliderk;
 
     private void Awake()
     {
@@ -12,20 +14,23 @@ public class Firetruck : MonoBehaviour, IInteractable
 
     public string GetActionMessage()
     {
-        return ACTION_MESSAGE;
+        if (isOpen)
+            return null;
+        else
+            return ACTION_MESSAGE;
     }
 
     public void HandleHighlight()
     {
-        if (PlayerMotor.Instance.IsLookingAtObject)
+        if (isOpen)
+            return;
+        else
             // visual.Highlight(false);
             visual.Highlight();
-        else
-            visual.RemoveHighlight();
     }
 
     public void Interact()
     {
-        Loader.Instance.LoadNextSceneByBuildIndex();
+        
     }
 }

@@ -6,12 +6,17 @@ public class Pole : MonoBehaviour, IInteractable
     [SerializeField] private Transform playerAttachPoint;
     [SerializeField] private Transform playerLandingPoint;
 
-    [SerializeField] private InteractableObjectVisual visual;
+    private InteractableObjectVisual visual;
     private const string ACTION_MESSAGE = "Спуститься";
     private float interactionDistance = 5f;
     private float slideSpeed = 8.25f;
 
     private Transform playerTransform;
+
+    private void Awake()
+    {
+        visual = GetComponent<InteractableObjectVisual>();
+    }
 
     public string GetActionMessage()
     {
@@ -53,7 +58,8 @@ public class Pole : MonoBehaviour, IInteractable
     public void HandleHighlight()
     {
         if (PlayerMotor.Instance.IsLookingAtObject)
-            visual.Highlight(false);
+            // visual.Highlight(false);
+            visual.Highlight();
         else
             visual.RemoveHighlight();
     }

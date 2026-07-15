@@ -35,7 +35,7 @@ public class PlayerMotor : MonoBehaviour
 
     private PlayerLook playerLookInstance;
 
-    public Transform PlayerHands { get => playerHands; }
+    //public Transform PlayerHands { get => playerHands; }
 
     [Header("Tools")]
     [SerializeField] private Transform playerHands;
@@ -61,6 +61,9 @@ public class PlayerMotor : MonoBehaviour
 
     private void PlayerInput_OnInteractPerformed()
     {
+        if (PlayerHands.Instance.HandsOccupied)
+            PlayerHands.Instance.DropItem();
+
         if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
             if (hitInfo.transform.TryGetComponent(out IInteractable obj))
@@ -72,7 +75,22 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
-        HighlightInteractableObjects();
+        SetCameraReferences();
+
+        // if (PlayerHands.Instance.HandsOccupied)
+        //     DiscardActionMessages();
+        
+        // else if (isLookingAtObject)
+        // {
+        //     HighlightInteractableObjects();
+        //     DisplayActionMessages();
+        // }
+        
+        if (!PlayerHands.Instance.HandsOccupied)
+        {
+            HighlightInteractableObjects();
+            DisplayActionMessages();
+        }
 
         if (movementEnabled)
         {
@@ -109,27 +127,70 @@ public class PlayerMotor : MonoBehaviour
 
     private void HighlightInteractableObjects()
     {
-        cameraStartPoint = playerLookInstance.GetCurrentCameraPosition();
-        cameraForward = playerLookInstance.GetCurrentCameraForward();
-        
         if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
             if (highlightedObject == null)
             {
                 isLookingAtObject = true;
                 highlightedObject = hitInfo.transform.GetComponent<IInteractable>();
+
                 highlightedObject.HandleHighlight();
-                PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
+
+
+
+                // if (!PlayerHands.Instance.IsObjectInHand(highlightedObject))
+                // {
+                //     // if (highlightedObject.GetActionMessage() != null)
+                //     // {
+                //     //     Debug.Log("Action message from PLAYER_MOTOR");
+                //     //     PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
+                //     // }
+
+                //     highlightedObject.HandleHighlight();
+                // }
             }
         }
-
+        
         else if (highlightedObject != null)
         {
             isLookingAtObject = false;
             highlightedObject.HandleHighlight();
             highlightedObject = null;
-            PlayerUI.Instance.DiscardCurrentActionmessage();
         }
+    }
+
+    private void DisplayActionMessages()
+    {
+        if (highlightedObject != null && IsLookingAtObject)
+        {
+            if (highlightedObject.GetActionMessage() != null)
+            {
+                Debug.Log("Highlighting action message");
+                PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
+            }
+        }
+        else PlayerUI.Instance.DiscardCurrentActionMessage();
+    }
+
+
+
+
+    //     // if (highlightedObject.GetActionMessage() != null)
+    //     // {
+    //     //     Debug.Log("Highlighting action message");
+    //     //     PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
+    //     // }
+    // }
+
+    private void DiscardActionMessages()
+    {
+        PlayerUI.Instance.DiscardCurrentActionMessage();
+    }
+
+    private void SetCameraReferences()
+    {
+        cameraStartPoint = playerLookInstance.GetCurrentCameraPosition();
+        cameraForward = playerLookInstance.GetCurrentCameraForward();
     }
 
     private void Move()

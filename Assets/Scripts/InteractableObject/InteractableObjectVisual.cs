@@ -9,16 +9,17 @@ public class InteractableObjectVisual : MonoBehaviour
     private Color holdedItemOutlineColor = Color.orange;
     private Color pickableItemOutlineColor = Color.white;
 
-    [SerializeField] private Renderer meshRenderer;
+    private Renderer meshRenderer;
     private MaterialPropertyBlock block;
     
     private void Awake()
     {
-        if (TryGetComponent(out Renderer renderer))
-            meshRenderer = renderer;
-        else
-            Debug.LogError("There's no mesh renderer on this GameObject: " + name + ". Please, insert a reference manually!");
+        // if (TryGetComponent(out Renderer renderer))
+        //     meshRenderer = renderer;
+        // else
+        //     Debug.LogError("There's no mesh renderer on this GameObject: " + name + ". Please, insert a reference manually!");
 
+        meshRenderer = GetComponent<Renderer>();
         block = new MaterialPropertyBlock();
     }
 
@@ -29,15 +30,25 @@ public class InteractableObjectVisual : MonoBehaviour
         meshRenderer.SetPropertyBlock(block);
     }
 
-    public void Highlight(bool isObjectHolded)
+    // public void Highlight(bool isObjectHolded)
+    // {
+    //     meshRenderer.GetPropertyBlock(block);
+    //     block.SetFloat(OutlineWidthID, outlineWidth);
+
+    //     if (isObjectHolded)
+    //         block.SetColor(OutlineColorID, holdedItemOutlineColor);
+    //     else
+    //         block.SetColor(OutlineColorID, pickableItemOutlineColor);
+
+    //     meshRenderer.SetPropertyBlock(block);
+    // }
+
+    public void Highlight()
     {
         meshRenderer.GetPropertyBlock(block);
+        
         block.SetFloat(OutlineWidthID, outlineWidth);
-
-        if (isObjectHolded)
-            block.SetColor(OutlineColorID, holdedItemOutlineColor);
-        else
-            block.SetColor(OutlineColorID, pickableItemOutlineColor);
+        block.SetColor(OutlineColorID, pickableItemOutlineColor);
 
         meshRenderer.SetPropertyBlock(block);
     }
