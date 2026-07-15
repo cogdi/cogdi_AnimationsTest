@@ -141,27 +141,13 @@ public class PlayerMotor : MonoBehaviour
         {
             if (highlightedObject.GetActionMessage() != null)
             {
-                Debug.Log("Highlighting action message");
                 PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
             }
         }
+        
         else PlayerUI.Instance.DiscardCurrentActionMessage();
     }
 
-
-
-
-    //     // if (highlightedObject.GetActionMessage() != null)
-    //     // {
-    //     //     Debug.Log("Highlighting action message");
-    //     //     PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
-    //     // }
-    // }
-
-    private void DiscardActionMessages()
-    {
-        PlayerUI.Instance.DiscardCurrentActionMessage();
-    }
 
     private void SetCameraReferences()
     {

@@ -6,7 +6,6 @@ public class Door : MonoBehaviour, IInteractable
     private InteractableObjectVisual visual;
     private const string ACTION_MESSAGE = "Дверь заперта";
     private bool isOpen;
-    private Collider colliderk;
 
     private void Awake()
     {
@@ -31,6 +30,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        throw new NotImplementedException();
+        Debug.Log("Cue to have cut the lock with chainsaw");
+        return;
     }
 }

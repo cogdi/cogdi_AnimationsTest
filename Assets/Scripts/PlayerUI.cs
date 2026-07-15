@@ -35,27 +35,30 @@ public class PlayerUI : MonoBehaviour
 
     public void DisplayActionMessage(string message)
     {
-        if (!actionMessagePanel.activeSelf)
-        {
-            crosshair.SetActive(false);
+        if (actionMessagePanel.activeSelf) return;
 
-            actionMessageButtonText.text = PlayerInput.Instance.GetInteractInputBindingString();
-            actionMessageText.text = message;
-            actionMessagePanel.SetActive(true);
-        
-            Debug.Log("Action message showing from UI_CLASS");
-        }
+        crosshair.SetActive(false);
+
+        actionMessageButtonText.text = PlayerInput.Instance.GetInteractInputBindingString();
+        actionMessageText.text = message;
+        actionMessagePanel.SetActive(true);
+    
+        Debug.Log("Action message showing from UI_CLASS");
     }
 
     public void DiscardCurrentActionMessage()
     {
-        if (actionMessagePanel.activeSelf)
-        {
-            crosshair.SetActive(true);
-            
-            actionMessagePanel.SetActive(false);
+        if (!actionMessagePanel.activeSelf) return;
 
-            Debug.Log("Action message dissssssscarding from UI_CLASS");
-        }
+        crosshair.SetActive(true);
+        
+        actionMessagePanel.SetActive(false);
+
+        Debug.Log("Action message dissssssscarding from UI_CLASS");
+    }
+
+    public bool IsActionMessageDisplayed()
+    {
+        return actionMessagePanel.activeSelf;
     }
 }

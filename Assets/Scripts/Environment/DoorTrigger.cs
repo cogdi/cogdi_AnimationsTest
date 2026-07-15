@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class DoorCollider : MonoBehaviour
+public class DoorTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Chainsaw>())
-            Debug.Log("CHAINSOOOO MAAAAN");
+            Debug.Log("Entered door trigger");
     }
 }
