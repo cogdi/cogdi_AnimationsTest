@@ -21,31 +21,6 @@ public class PickableObject : MonoBehaviour, IInteractable
         visual = GetComponent<InteractableObjectVisual>();
     }
 
-    protected void Start()
-    {
-        //playerHands = PlayerMotor.Instance.PlayerHands;
-    }
-
-    // protected void PickUp()
-    // {
-        //OnObjectPickedUp?.Invoke(this);
-        
-        // DisablePhysics();
-
-        // transform.SetParent(playerHands.transform);
-        // transform.position = playerHands.position;
-        // //PlayerLook.Instance.ParentObjectToCurrentCamera(transform);
-    // }
-
-    // protected void Drop()
-    // {
-    //     Debug.Log("Dropping PO");
-
-    //     EnablePhysics();
-    //     transform.SetParent(null);
-    // }
-
-
     public void DisablePhysics()
     {
         rb.useGravity = false;
@@ -58,25 +33,6 @@ public class PickableObject : MonoBehaviour, IInteractable
         rb.useGravity = true;
     }
 
-    // public void Interact()
-    // {
-    //     Debug.Log("Interacted");
-        
-    //     if (isHolded)
-    //     {
-    //         visual.RemoveHighlight();
-    //         Drop();
-    //     }
-
-    //     else
-    //     {
-    //         visual.Highlight(true);
-    //         PickUp();
-    //     }
-
-    //     isHolded = !isHolded;
-    // }
-
     public void Interact()
     {
         Debug.Log("Interacted");
@@ -88,7 +44,6 @@ public class PickableObject : MonoBehaviour, IInteractable
     public void HandleHighlight()
     {
         if (PlayerMotor.Instance.IsLookingAtObject)
-            // visual.Highlight(isHolded);
             visual.Highlight();
 
         else

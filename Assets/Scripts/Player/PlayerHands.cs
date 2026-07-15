@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PlayerHands : MonoBehaviour
 {
-    //public event Action OnObjectTakenInHands;
-
     public static PlayerHands Instance { get; private set; }
 
     private PickableObject holdedItem;
@@ -28,8 +26,6 @@ public class PlayerHands : MonoBehaviour
 
     public void TryAddItem(PickableObject obj)
     {
-        // if (handsOccupied)
-        //     return;
         if (holdedItem == obj)
             return;
         

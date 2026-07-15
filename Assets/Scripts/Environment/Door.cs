@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
@@ -25,12 +26,11 @@ public class Door : MonoBehaviour, IInteractable
         if (isOpen)
             return;
         else
-            // visual.Highlight(false);
             visual.Highlight();
     }
 
     public void Interact()
     {
-        
+        throw new NotImplementedException();
     }
 }

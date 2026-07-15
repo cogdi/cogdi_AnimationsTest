@@ -35,8 +35,6 @@ public class PlayerMotor : MonoBehaviour
 
     private PlayerLook playerLookInstance;
 
-    //public Transform PlayerHands { get => playerHands; }
-
     [Header("Tools")]
     [SerializeField] private Transform playerHands;
 
@@ -77,15 +75,6 @@ public class PlayerMotor : MonoBehaviour
     {
         SetCameraReferences();
 
-        // if (PlayerHands.Instance.HandsOccupied)
-        //     DiscardActionMessages();
-        
-        // else if (isLookingAtObject)
-        // {
-        //     HighlightInteractableObjects();
-        //     DisplayActionMessages();
-        // }
-        
         if (!PlayerHands.Instance.HandsOccupied)
         {
             HighlightInteractableObjects();
@@ -135,19 +124,6 @@ public class PlayerMotor : MonoBehaviour
                 highlightedObject = hitInfo.transform.GetComponent<IInteractable>();
 
                 highlightedObject.HandleHighlight();
-
-
-
-                // if (!PlayerHands.Instance.IsObjectInHand(highlightedObject))
-                // {
-                //     // if (highlightedObject.GetActionMessage() != null)
-                //     // {
-                //     //     Debug.Log("Action message from PLAYER_MOTOR");
-                //     //     PlayerUI.Instance.DisplayActionMessage(highlightedObject.GetActionMessage());
-                //     // }
-
-                //     highlightedObject.HandleHighlight();
-                // }
             }
         }
         

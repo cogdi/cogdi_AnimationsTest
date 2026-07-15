@@ -18,7 +18,6 @@ public class Firetruck : MonoBehaviour, IInteractable
     public void HandleHighlight()
     {
         if (PlayerMotor.Instance.IsLookingAtObject)
-            // visual.Highlight(false);
             visual.Highlight();
         else
             visual.RemoveHighlight();
