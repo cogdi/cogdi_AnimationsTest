@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using static PickableObject;
 
 public class PlayerHands : MonoBehaviour
 {
@@ -19,11 +19,6 @@ public class PlayerHands : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        PickableObject.OnObjectPickedUp += TryAddItem;
-    }
-
     public void TryAddItem(PickableObject obj)
     {
         if (holdedItem == obj)
@@ -40,6 +35,19 @@ public class PlayerHands : MonoBehaviour
         holdedItem.transform.position = transform.position;
 
         handsOccupied = true;
+    }
+
+    private Quaternion GetToolSpecificRotation(Tool type)
+    {
+        switch (type)
+        {
+            case Tool.None:
+                return Quaternion.Euler(0f, 0f, 0f);
+            case Tool.Chainsaw:
+                return Quaternion.Euler(0f, 90f, 0f);
+            default:
+                return Quaternion.Euler(0f, 0f, 0f);
+        }
     }
 
     public void DropItem()

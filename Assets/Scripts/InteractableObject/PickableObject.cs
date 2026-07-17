@@ -1,11 +1,15 @@
-using System;
-using JetBrains.Annotations;
 using UnityEngine;
 
-public class PickableObject : MonoBehaviour, IInteractable
+public abstract class PickableObject : MonoBehaviour, IInteractable
 {
-    public static event Action<PickableObject> OnObjectPickedUp;
+    public enum Tool
+    {
+        // Type None is set when a pickable object is not an part of equipment (FiguresScene).
+        None,
+        Chainsaw,
+    }
 
+    public abstract Tool ToolType { get; }
     protected Rigidbody rb;
     protected InteractableObjectVisual visual;
     protected Transform playerHands;

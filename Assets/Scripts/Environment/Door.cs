@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    [SerializeField] private DoorTrigger trigger;
     private InteractableObjectVisual visual;
     private const string ACTION_MESSAGE = "Дверь заперта";
     private bool isOpen;
@@ -12,6 +13,17 @@ public class Door : MonoBehaviour, IInteractable
         visual = GetComponent<InteractableObjectVisual>();
     }
 
+    private void Start()
+    {
+        trigger.OnDoorOpened += DoorTrigger_OnDoorOpened;
+    }
+
+    private void DoorTrigger_OnDoorOpened()
+    {
+        isOpen = true;
+        gameObject.SetActive(false);
+    }
+
     public string GetActionMessage()
     {
         if (isOpen)
@@ -19,6 +31,8 @@ public class Door : MonoBehaviour, IInteractable
         else
             return ACTION_MESSAGE;
     }
+
+
 
     public void HandleHighlight()
     {

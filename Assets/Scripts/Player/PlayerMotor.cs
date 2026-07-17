@@ -35,8 +35,8 @@ public class PlayerMotor : MonoBehaviour
 
     private PlayerLook playerLookInstance;
 
-    [Header("Tools")]
-    [SerializeField] private Transform playerHands;
+    // [Header("Tools")]
+    // [SerializeField] private Transform playerHands;
 
 
     private void Awake()

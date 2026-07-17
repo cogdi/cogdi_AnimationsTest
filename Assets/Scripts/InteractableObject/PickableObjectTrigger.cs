@@ -11,7 +11,7 @@ public class PickableObjectTrigger : MonoBehaviour
         {
             if (other.TryGetComponent(out PickableObject obj))
             {
-                if (!obj.IsHolded)
+                if (!PlayerHands.Instance.HandsOccupied)
                 {
                     obj.transform.position = transform.position;
                     obj.transform.rotation = transform.rotation;

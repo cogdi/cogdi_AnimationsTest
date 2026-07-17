@@ -515,9 +515,9 @@ GameObject:
   - component: {fileID: 675025999}
   - component: {fileID: 675025998}
   - component: {fileID: 675025997}
-  - component: {fileID: 675026001}
   - component: {fileID: 675026002}
   - component: {fileID: 675026003}
+  - component: {fileID: 675026004}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
@@ -619,20 +619,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &675026001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675025996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ceabbba21791147eaa71b94bbaff79e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  rb: {fileID: 675026002}
-  visual: {fileID: 675026003}
 --- !u!54 &675026002
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -672,6 +658,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307e688c90b2cecfd9577ee020c6ead5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectVisual
+--- !u!114 &675026004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675025996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e461c451b0b97418db4aaaf09a3815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Figure
 --- !u!1 &742049171
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,9 +682,9 @@ GameObject:
   - component: {fileID: 742049174}
   - component: {fileID: 742049173}
   - component: {fileID: 742049172}
-  - component: {fileID: 742049176}
   - component: {fileID: 742049177}
   - component: {fileID: 742049178}
+  - component: {fileID: 742049179}
   m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
@@ -790,20 +788,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &742049176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742049171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ceabbba21791147eaa71b94bbaff79e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  rb: {fileID: 742049177}
-  visual: {fileID: 742049178}
 --- !u!54 &742049177
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -843,6 +827,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307e688c90b2cecfd9577ee020c6ead5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectVisual
+--- !u!114 &742049179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742049171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e461c451b0b97418db4aaaf09a3815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Figure
+--- !u!114 &794955701 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8636225345280309140, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+  m_PrefabInstance: {fileID: 1325824654924241604}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +899,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &978820322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3933677707986977232, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+  m_PrefabInstance: {fileID: 1325824654924241604}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1035020035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +1258,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1753938814 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2108068955125577549, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+  m_PrefabInstance: {fileID: 1325824654924241604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1840854314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1377,9 +1400,9 @@ GameObject:
   - component: {fileID: 1917059521}
   - component: {fileID: 1917059520}
   - component: {fileID: 1917059519}
-  - component: {fileID: 1917059523}
   - component: {fileID: 1917059524}
   - component: {fileID: 1917059525}
+  - component: {fileID: 1917059526}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -1481,20 +1504,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1917059523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917059518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ceabbba21791147eaa71b94bbaff79e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  rb: {fileID: 1917059524}
-  visual: {fileID: 1917059525}
 --- !u!54 &1917059524
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1534,6 +1543,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307e688c90b2cecfd9577ee020c6ead5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectVisual
+--- !u!114 &1917059526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917059518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e461c451b0b97418db4aaaf09a3815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Figure
+--- !u!1 &2064248715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8490041614991541713, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+  m_PrefabInstance: {fileID: 1325824654924241604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1325824654924241604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1626,6 +1652,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUI_InCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8797187212985773777, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+      propertyPath: crosshair
+      value: 
+      objectReference: {fileID: 2064248715}
+    - target: {fileID: 8797187212985773777, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+      propertyPath: actionMessageText
+      value: 
+      objectReference: {fileID: 978820322}
+    - target: {fileID: 8797187212985773777, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+      propertyPath: actionMessagePanel
+      value: 
+      objectReference: {fileID: 1753938814}
+    - target: {fileID: 8797187212985773777, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+      propertyPath: actionMessageButtonText
+      value: 
+      objectReference: {fileID: 794955701}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
