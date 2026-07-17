@@ -6,6 +6,7 @@ public class Hose : PickableObject
     public override Tool ToolType { get => Tool.Hose; }
 
     [SerializeField] private ParticleSystem particles;
+    [SerializeField] private GameObject waterTrigger;
 
     private bool isEquipped;
 
@@ -23,12 +24,18 @@ public class Hose : PickableObject
     private void Start_Watering()
     {
         if (isEquipped)
+        {
             particles.gameObject.SetActive(true);
+            waterTrigger.SetActive(true);
+        }
     }
 
     private void Stop_Watering()
     {
         if (isEquipped)
+        {
             particles.gameObject.SetActive(false);
+            waterTrigger.SetActive(false);
+        }
     }
 }
