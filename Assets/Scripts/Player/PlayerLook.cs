@@ -50,7 +50,7 @@ public class PlayerLook : MonoBehaviour
 
     private void Start()
     {
-        playerInputInstance.OnSwitchCameraTriggered += PlayerInput_OnSwitchCameraTriggered;
+        playerInputInstance.OnSwitchCameraPerformed += PlayerInput_OnSwitchCameraTriggered;
     }
 
     private void PlayerInput_OnSwitchCameraTriggered()

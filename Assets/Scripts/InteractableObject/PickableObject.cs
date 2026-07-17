@@ -7,6 +7,7 @@ public abstract class PickableObject : MonoBehaviour, IInteractable
         // Type None is set when a pickable object is not an part of equipment (FiguresScene).
         None,
         Chainsaw,
+        Hose,
     }
 
     public abstract Tool ToolType { get; }

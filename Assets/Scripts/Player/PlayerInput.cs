@@ -6,8 +6,10 @@ public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput Instance { get; private set; }
 
-    public event Action OnSwitchCameraTriggered;
+    public event Action OnSwitchCameraPerformed;
     public event Action OnInteractPerformed;
+    public event Action OnShootButtonPressed;
+    public event Action OnShootButtonReleased;
 
     private PlayerInputActions playerInputActions;
 
@@ -27,9 +29,21 @@ public class PlayerInput : MonoBehaviour
     {
         playerInputActions = new PlayerInputActions();
         playerInputActions.OnFoot.Enable();
-        playerInputActions.OnFoot.SwitchCamera.performed += SwitchCamera_Triggered;
+        playerInputActions.OnFoot.SwitchCamera.performed += SwitchCamera_Performed;
         
         playerInputActions.OnFoot.Interact.performed += Interact_Performed;
+        playerInputActions.OnFoot.Shoot.started += Shoot_Started;
+        playerInputActions.OnFoot.Shoot.canceled += Shoot_Canceled;
+    }
+
+    private void Shoot_Started(InputAction.CallbackContext context)
+    {
+        OnShootButtonPressed?.Invoke();
+    }
+
+    private void Shoot_Canceled(InputAction.CallbackContext context)
+    {
+        OnShootButtonReleased?.Invoke();
     }
 
     private void Interact_Performed(InputAction.CallbackContext context)
@@ -37,9 +51,9 @@ public class PlayerInput : MonoBehaviour
         OnInteractPerformed?.Invoke();
     }
 
-    private void SwitchCamera_Triggered(InputAction.CallbackContext context)
+    private void SwitchCamera_Performed(InputAction.CallbackContext context)
     {
-        OnSwitchCameraTriggered?.Invoke();
+        OnSwitchCameraPerformed?.Invoke();
     }
 
     public Vector2 GetLookVector()
