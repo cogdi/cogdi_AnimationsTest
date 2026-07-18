@@ -34,7 +34,7 @@ public class PlayerHands : MonoBehaviour
         holdedItem.transform.SetParent(transform);
         holdedItem.transform.localPosition = Vector3.zero;
         holdedItem.transform.localRotation = GetToolSpecificRotation(holdedItem.ToolType);
-        
+
         handsOccupied = true;
     }
 
@@ -44,7 +44,8 @@ public class PlayerHands : MonoBehaviour
         {
             case Tool.Chainsaw:
                 Debug.Log("Chainsaw grabbed");
-                return Quaternion.Euler(0f, -95f, 0f);
+                return Quaternion.Euler(0f, -175f, 0f);
+                // return Quaternion.Euler(0f, -95f, 0f);
             case Tool.Hose:
                 Debug.Log("Hose grabbed");
                 return Quaternion.Euler(0f, 90f, 0f);
