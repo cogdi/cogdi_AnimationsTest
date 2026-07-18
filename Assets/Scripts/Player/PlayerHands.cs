@@ -21,9 +21,6 @@ public class PlayerHands : MonoBehaviour
 
     public void TryAddItem(PickableObject obj)
     {
-        if (holdedItem == obj)
-            return;
-        
         Debug.Log("Trying to add an item");
 
         PlayerUI.Instance.DiscardCurrentActionMessage();

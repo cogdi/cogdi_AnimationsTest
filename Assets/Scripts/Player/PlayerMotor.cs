@@ -60,7 +60,10 @@ public class PlayerMotor : MonoBehaviour
     private void PlayerInput_OnInteractPerformed()
     {
         if (PlayerHands.Instance.HandsOccupied)
+        {
             PlayerHands.Instance.DropItem();
+            return;
+        }
 
         if (Physics.Raycast(cameraStartPoint, cameraForward, out RaycastHit hitInfo, interactionDistance, interactableLayerMask))
         {
