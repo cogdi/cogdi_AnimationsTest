@@ -1,16 +1,37 @@
 using UnityEngine;
 
-public class GasMask : MonoBehaviour
+public class GasMask : MonoBehaviour, IInteractable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public const string ACTION_MESSAGE = "Надеть";
+    private InteractableObjectVisual visual;
+
+    private void Awake()
     {
-        
+        visual = GetComponent<InteractableObjectVisual>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public string GetActionMessage()
     {
-        
+        return ACTION_MESSAGE;
+    }
+
+    public void HandleHighlight()
+    {
+        if (PlayerMotor.Instance.IsLookingAtObject)
+            visual.Highlight();
+
+        else
+            visual.RemoveHighlight();
+    }
+
+    public void Interact()
+    {
+        visual.RemoveHighlight();
+
+        Transform headEquipmentSocket = PlayerMotor.Instance.HeadEquipmentSocket;
+
+        transform.SetParent(headEquipmentSocket);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
     }
 }

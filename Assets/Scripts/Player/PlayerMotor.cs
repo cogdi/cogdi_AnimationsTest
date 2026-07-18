@@ -24,9 +24,11 @@ public class PlayerMotor : MonoBehaviour
     private bool isGrounded;
 
     public bool IsLookingAtObject { get => isLookingAtObject; }
+    public Transform HeadEquipmentSocket { get => headEquipmentSocket; }
 
     [Header("Interactables")]
     [SerializeField] private LayerMask interactableLayerMask;
+    [SerializeField] private Transform headEquipmentSocket;
     private float interactionDistance = 4f;
     private Vector3 cameraStartPoint;
     private Vector3 cameraForward;
