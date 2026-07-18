@@ -32,8 +32,6 @@ public class Door : MonoBehaviour, IInteractable
             return ACTION_MESSAGE;
     }
 
-
-
     public void HandleHighlight()
     {
         if (isOpen)

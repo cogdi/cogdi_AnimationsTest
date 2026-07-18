@@ -3,39 +3,37 @@ using UnityEngine;
 
 public class HoseWaterTrigger : MonoBehaviour
 {
-    private float extinguishTime;
-    private const float EXTINGUISH_TIME_MAX = 3F;
-    private Flamable currentFire;
-    private bool extinguishing;
+    private FireTrigger currentFire;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Flamable flamable))
+        if (other.TryGetComponent(out FireTrigger flamable))
         {
             currentFire = flamable;
-            extinguishing = true;
         }
     }
 
     private void Update()
     {
-        if (extinguishing)
+        if (currentFire)
         {
             if (currentFire.FireProgress > 0f)
             {
-                currentFire.FireProgress -= 34 * Time.deltaTime;
-                return;
+                currentFire.Extinguish();
             }
 
-            else currentFire.FireVFX.gameObject.SetActive(false);
+            else
+            {
+                currentFire.StopBurning();
+                currentFire = null;
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.Equals(currentFire))
+        if (other.gameObject.Equals(currentFire.gameObject))
         {
-            extinguishing = false;
             currentFire = null;
         }
     }
