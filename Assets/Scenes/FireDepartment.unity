@@ -1369,21 +1369,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5849abaddf46e6234978e092e37d9029, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5849abaddf46e6234978e092e37d9029, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1427908171}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5849abaddf46e6234978e092e37d9029, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1427908170}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5849abaddf46e6234978e092e37d9029, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1427908169}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5849abaddf46e6234978e092e37d9029, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1427908172}
@@ -7718,6 +7709,10 @@ PrefabInstance:
       value: TAB
       objectReference: {fileID: 0}
     - target: {fileID: 8797187212985773777, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+      propertyPath: crosshair
+      value: 
+      objectReference: {fileID: 1445335713}
+    - target: {fileID: 8797187212985773777, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
       propertyPath: actionMessageText
       value: 
       objectReference: {fileID: 1123040670}
@@ -12100,60 +12095,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5849abaddf46e6234978e092e37d9029, type: 3}
   m_PrefabInstance: {fileID: 111904063}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1427908169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427908166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 307e688c90b2cecfd9577ee020c6ead5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectVisual
-  meshRenderer: {fileID: 0}
---- !u!54 &1427908170
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427908166}
-  serializedVersion: 5
-  m_Mass: 0.25
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1427908171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427908166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ceabbba21791147eaa71b94bbaff79e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickableObject
-  rb: {fileID: 1427908170}
-  visual: {fileID: 1427908169}
 --- !u!65 &1427908172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12287,6 +12228,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1428804077}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1445335713 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8490041614991541713, guid: 59459624236eb2c42b1412fe3ffd3a49, type: 3}
+  m_PrefabInstance: {fileID: 947627726}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1455567653
 GameObject:
   m_ObjectHideFlags: 0
@@ -18645,7 +18591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5f398873d179b5db262d1c4712969f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Firetruck
-  visual: {fileID: 8740235936426835005}
 --- !u!114 &8740235936426835005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18658,7 +18603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307e688c90b2cecfd9577ee020c6ead5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectVisual
-  meshRenderer: {fileID: 8740235936426835006}
 --- !u!23 &8740235936426835006
 MeshRenderer:
   m_ObjectHideFlags: 0
