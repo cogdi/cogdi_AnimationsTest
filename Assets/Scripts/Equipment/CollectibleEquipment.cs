@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
-public class Firetruck : MonoBehaviour, IInteractable
+public class CollectibleEquipment : MonoBehaviour, IInteractable
 {
-    private InteractableObjectVisual visual;
-    private const string ACTION_MESSAGE = "Выехать на вызов";
+    public static event Action OnEquipmentPieceCollected;
+
+    public const string ACTION_MESSAGE = "Положить в машину";
+    protected InteractableObjectVisual visual;
 
     private void Awake()
     {
@@ -19,13 +22,15 @@ public class Firetruck : MonoBehaviour, IInteractable
     {
         if (PlayerMotor.Instance.IsLookingAtObject)
             visual.Highlight();
+
         else
             visual.RemoveHighlight();
     }
 
     public void Interact()
     {
-        if (MissionManager.Instance.IsMissionReady)
-            Loader.Instance.LoadNextSceneByBuildIndex();
+        OnEquipmentPieceCollected?.Invoke();
+
+        gameObject.SetActive(false);
     }
 }

@@ -5,11 +5,13 @@ public class MissionManager : MonoBehaviour
 {
     public static MissionManager Instance { get; private set; }
 
+    // public event Action OnMissionReady;
     public event Action OnMissionStarted;
 
+    [SerializeField] private CollectibleEquipment[] missingEquipment;
+    private int collectedEquipment;
+    public bool IsMissionReady { get; private set; }
 
-    private bool missionStarted;
-    private bool isEquipped;
 
     private void Awake()
     {
@@ -22,8 +24,17 @@ public class MissionManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
+    private void Start()
     {
-        
+        CollectibleEquipment.OnEquipmentPieceCollected += CollectibleEquipment_OnEquipmentPieceCollected;
+    }
+
+    private void CollectibleEquipment_OnEquipmentPieceCollected()
+    {
+        if (++collectedEquipment >= missingEquipment.Length)
+        {
+            OnMissionStarted?.Invoke();
+            IsMissionReady = true;
+        }
     }
 }
