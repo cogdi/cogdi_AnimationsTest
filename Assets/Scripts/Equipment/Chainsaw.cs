@@ -1,13 +1,13 @@
+using System;
 using UnityEngine;
 
 public class Chainsaw : PickableObject
 {
+    public static event Action OnAnyChainsawEquippedFirstTime;
     public override Tool ToolType { get => Tool.Chainsaw; }
 
-    // [SerializeField] private ParticleSystem particles;
-    // [SerializeField] private GameObject waterTrigger;
-
     private bool isEquipped;
+    private bool equippedFirstTime;
     public bool PowerMode { get; private set; }
 
     private void Start()
@@ -46,6 +46,17 @@ public class Chainsaw : PickableObject
         {
             PowerMode = false;
             RotateToIdleMode();
+        }
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+
+        if (!equippedFirstTime)
+        {
+            OnAnyChainsawEquippedFirstTime?.Invoke();
+            equippedFirstTime = true;
         }
     }
 }

@@ -38,7 +38,7 @@ public abstract class PickableObject : MonoBehaviour, IInteractable
         rb.useGravity = true;
     }
 
-    public void Interact()
+    public virtual void Interact()
     {
         Debug.Log("Interacted");
 

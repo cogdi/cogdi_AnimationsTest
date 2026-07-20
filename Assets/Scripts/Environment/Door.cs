@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    public static event Action OnAnyDoorInteractedFirstTime;
+    public static event Action OnAnyDoorBroken;
+
     [SerializeField] private DoorTrigger trigger;
     private InteractableObjectVisual visual;
     private const string ACTION_MESSAGE = "Дверь заперта";
     private bool isOpen;
+    private bool interactedFirstTime;
 
     private void Awake()
     {
@@ -22,6 +26,8 @@ public class Door : MonoBehaviour, IInteractable
     {
         isOpen = true;
         gameObject.SetActive(false);
+
+        OnAnyDoorBroken?.Invoke();
     }
 
     public string GetActionMessage()
@@ -42,7 +48,13 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("Cue to have cut the lock with chainsaw");
+        if (!interactedFirstTime)
+        {
+            OnAnyDoorInteractedFirstTime?.Invoke();
+            
+            interactedFirstTime = true;
+        }
+
         return;
     }
 }

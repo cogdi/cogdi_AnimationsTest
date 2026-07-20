@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class Hose : PickableObject
 {
+    public static event Action OnAnyHoseGrabbedFirstTime;
+
     public override Tool ToolType { get => Tool.Hose; }
 
     [SerializeField] private ParticleSystem particles;
     [SerializeField] private GameObject waterTrigger;
+    private bool grabbedFirstTime;
 
     private bool isEquipped;
 
@@ -19,6 +22,20 @@ public class Hose : PickableObject
     private void Update()
     {
         isEquipped = PlayerHands.Instance.IsObjectInHand(this);
+
+        if (!grabbedFirstTime)
+        {
+            ShootFirstTimeInteractionEvent();
+        }
+    }
+
+    private void ShootFirstTimeInteractionEvent()
+    {
+        if (isEquipped)
+        {
+            OnAnyHoseGrabbedFirstTime?.Invoke();
+            grabbedFirstTime = true;
+        }
     }
 
     private void Start_Watering()

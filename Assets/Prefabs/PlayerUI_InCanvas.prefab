@@ -722,6 +722,8 @@ MonoBehaviour:
   actionMessagePanel: {fileID: 2108068955125577549}
   actionMessageButtonText: {fileID: 8636225345280309140}
   actionMessageText: {fileID: 3933677707986977232}
+  tutorialBoxContentText: {fileID: 6295838883449734430}
+  tutorialBoxObjectiveText: {fileID: 4106316560443586902}
 --- !u!1 &7171432139267629712
 GameObject:
   m_ObjectHideFlags: 0
