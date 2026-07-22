@@ -7,9 +7,9 @@ public class HoseWaterTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out FireTrigger flamable))
+        if (other.TryGetComponent(out FireTrigger fireTrigger))
         {
-            currentFire = flamable;
+            currentFire = fireTrigger;
         }
     }
 
@@ -32,9 +32,12 @@ public class HoseWaterTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.Equals(currentFire.gameObject))
+        if (currentFire)
         {
-            currentFire = null;
+            if (other.gameObject.Equals(currentFire.gameObject))
+            {
+                currentFire = null;
+            }
         }
     }
 }
