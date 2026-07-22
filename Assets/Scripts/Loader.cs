@@ -70,13 +70,13 @@ public class Loader : MonoBehaviour
         Debug.Log("Changing scene...");
         if (index < sceneCount - 1)
         {
-            SceneManager.LoadScene(++index);
+            SceneManager.LoadSceneAsync(++index);
 
         }
         
         else
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadSceneAsync(0);
         }
     }
 
