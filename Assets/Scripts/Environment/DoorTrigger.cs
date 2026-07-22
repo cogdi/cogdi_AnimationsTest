@@ -5,67 +5,22 @@ public class DoorTrigger : MonoBehaviour
 {
     public event Action OnDoorOpened;
 
-    //[SerializeField] private Door door;
-    private bool isChainsawInsideTrigger;
-    private const float CHAINSAW_PROGRESS_MAX = 100F;
-    private float chainsawProgress;
+    public float DoorCondition { get => doorCondition; }
+    public bool Opened { get => opened; }
+    private const float DOOR_CONDITION_MAX = 100F;
+    private float doorCondition = DOOR_CONDITION_MAX;
     private bool opened;
-    private Chainsaw chainsaw;
-    private bool isCutting;
 
-    private void OnTriggerEnter(Collider other)
+    public void Cut()
     {
-        if (!opened)
-        {
-            if (!chainsaw)
-            {
-                if (other.TryGetComponent(out Chainsaw chainsaw))
-                {
-                    this.chainsaw = chainsaw;
-                    isChainsawInsideTrigger = true;
-                }
-            }
-
-            else if (other.gameObject.Equals(chainsaw.gameObject))
-            {
-                isChainsawInsideTrigger = true;
-            }
-        }
+        doorCondition -= 34 * Time.deltaTime;
     }
 
-    private void OnTriggerStay(Collider other)
+    public void Break()
     {
-        isCutting = chainsaw && isChainsawInsideTrigger && chainsaw.PowerMode;
-    }
-
-    private void Update()
-    {
-        if (!opened && isCutting)
-        {
-            if (chainsawProgress <= CHAINSAW_PROGRESS_MAX)
-            {
-                chainsawProgress += 20 * Time.deltaTime;
-            }
-
-            else
-            {
-                Debug.Log("Door should be opened now");
-
-                opened = true;
-                OnDoorOpened?.Invoke();
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!opened)
-        {
-            if (other.GetComponent<Chainsaw>())
-            {
-                isCutting = false;
-                isChainsawInsideTrigger = false;
-            }
-        }
+        OnDoorOpened?.Invoke();
+        
+        opened = true;
+        Destroy(transform.parent.gameObject);
     }
 }

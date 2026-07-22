@@ -9,16 +9,13 @@ public class Chainsaw : PickableObject
     private bool isEquipped;
     private bool equippedFirstTime;
     public bool PowerMode { get; private set; }
+    private DoorTrigger cuttingDoorTrigger;
+    private bool isCutting;
 
     private void Start()
     {
-        PlayerInput.Instance.OnShootButtonPressed += Start_Cutting;
-        PlayerInput.Instance.OnShootButtonReleased += Stop_Cutting;
-    }
-
-    private void Update()
-    {
-        isEquipped = PlayerHands.Instance.IsObjectInHand(this);
+        PlayerInput.Instance.OnShootButtonPressed += StartCutting;
+        PlayerInput.Instance.OnShootButtonReleased += StopCutting;
     }
 
     private void RotateToPowerMode()
@@ -31,7 +28,7 @@ public class Chainsaw : PickableObject
         transform.localRotation = Quaternion.Euler(0, -175f, 0);
     }
 
-    private void Start_Cutting()
+    private void StartCutting()
     {
         if (isEquipped)
         {
@@ -40,7 +37,7 @@ public class Chainsaw : PickableObject
         }
     }
 
-    private void Stop_Cutting()
+    private void StopCutting()
     {
         if (isEquipped)
         {
@@ -57,6 +54,53 @@ public class Chainsaw : PickableObject
         {
             OnAnyChainsawEquippedFirstTime?.Invoke();
             equippedFirstTime = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!cuttingDoorTrigger)
+        {
+            if (other.TryGetComponent(out DoorTrigger doorTrigger))
+            {
+                cuttingDoorTrigger = doorTrigger;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        isCutting = cuttingDoorTrigger && PowerMode;
+
+        if (isCutting)
+        {
+            if (cuttingDoorTrigger.DoorCondition > 0f)
+            {
+                cuttingDoorTrigger.Cut();
+            }
+
+            else
+            {
+                Debug.Log("Door should be opened now");
+                cuttingDoorTrigger.Break();
+            }
+        }
+    }
+
+    private void Update()
+    {
+        isEquipped = PlayerHands.Instance.IsObjectInHand(this);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (cuttingDoorTrigger)
+        {
+            if (other.GetComponent<DoorTrigger>())
+            {
+                isCutting = false;
+                cuttingDoorTrigger = null;
+            }
         }
     }
 }
