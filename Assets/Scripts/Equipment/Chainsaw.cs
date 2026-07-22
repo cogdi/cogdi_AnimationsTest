@@ -5,7 +5,8 @@ public class Chainsaw : PickableObject
 {
     public static event Action OnAnyChainsawEquippedFirstTime;
     public override Tool ToolType { get => Tool.Chainsaw; }
-
+    
+    [SerializeField] public ParticleSystem particles;
     private bool isEquipped;
     private bool equippedFirstTime;
     public bool PowerMode { get; private set; }
@@ -14,8 +15,8 @@ public class Chainsaw : PickableObject
 
     private void Start()
     {
-        PlayerInput.Instance.OnShootButtonPressed += StartCutting;
-        PlayerInput.Instance.OnShootButtonReleased += StopCutting;
+        PlayerInput.Instance.OnShootButtonPressed += StartPower;
+        PlayerInput.Instance.OnShootButtonReleased += StopPower;
     }
 
     private void RotateToPowerMode()
@@ -28,7 +29,7 @@ public class Chainsaw : PickableObject
         transform.localRotation = Quaternion.Euler(0, -175f, 0);
     }
 
-    private void StartCutting()
+    private void StartPower()
     {
         if (isEquipped)
         {
@@ -37,7 +38,7 @@ public class Chainsaw : PickableObject
         }
     }
 
-    private void StopCutting()
+    private void StopPower()
     {
         if (isEquipped)
         {
@@ -74,6 +75,8 @@ public class Chainsaw : PickableObject
 
         if (isCutting)
         {
+            particles.gameObject.SetActive(true);
+
             if (cuttingDoorTrigger.DoorCondition > 0f)
             {
                 cuttingDoorTrigger.Cut();
@@ -83,8 +86,19 @@ public class Chainsaw : PickableObject
             {
                 Debug.Log("Door should be opened now");
                 cuttingDoorTrigger.Break();
+
+                StopCutting();
             }
         }
+
+        Debug.Log(isCutting);
+    }
+
+    private void StopCutting()
+    {
+        isCutting = false;
+        particles.gameObject.SetActive(false);
+        cuttingDoorTrigger = null;
     }
 
     private void Update()
@@ -98,8 +112,7 @@ public class Chainsaw : PickableObject
         {
             if (other.GetComponent<DoorTrigger>())
             {
-                isCutting = false;
-                cuttingDoorTrigger = null;
+                StopCutting();
             }
         }
     }
