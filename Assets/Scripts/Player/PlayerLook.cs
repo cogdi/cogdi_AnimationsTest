@@ -94,18 +94,36 @@ public class PlayerLook : MonoBehaviour
         transform.Rotate(0f, mouseX, 0f);
     }
 
+    // private void ThirdPersonLook()
+    // {
+    //     inputX += playerInputInstance.GetLookVector().x;
+    //     inputY += playerInputInstance.GetLookVector().y;
+
+    //     cameraOffset.transform.rotation = Quaternion.Euler(Mathf.Clamp(-inputY * thirdPersonSensitivity, cameraUpperClamp, cameraLowerClamp), inputX * thirdPersonSensitivity, 0f);
+
+    //     transform.rotation = Quaternion.Euler(
+    //         0,
+    //         cameraOffset.eulerAngles.y,
+    //         0
+    //     );
+
+    //     Debug.DrawRay(thirdPersonCam.transform.position, thirdPersonCam.transform.forward * 9f, Color.blue);
+    // }
+
     private void ThirdPersonLook()
     {
         inputX += playerInputInstance.GetLookVector().x;
         inputY += playerInputInstance.GetLookVector().y;
 
-        cameraOffset.transform.rotation = Quaternion.Euler(Mathf.Clamp(-inputY * thirdPersonSensitivity, cameraLowerClamp, cameraUpperClamp), inputX * thirdPersonSensitivity, 0f);
-
-        transform.rotation = Quaternion.Euler(
-            0,
-            cameraOffset.eulerAngles.y,
-            0
+        float yaw = inputX * thirdPersonSensitivity;
+        float pitch = Mathf.Clamp(
+            -inputY * thirdPersonSensitivity,
+            cameraUpperClamp,
+            cameraLowerClamp
         );
+
+        cameraOffset.rotation = Quaternion.Euler(pitch, yaw, 0f);
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 
         Debug.DrawRay(thirdPersonCam.transform.position, thirdPersonCam.transform.forward * 9f, Color.blue);
     }
