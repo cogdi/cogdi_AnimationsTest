@@ -15,13 +15,13 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private Camera firstPersonCam;
     [SerializeField] private Camera thirdPersonCam;
     [SerializeField] private Transform cameraOffset;
-    [SerializeField, Range(0, 12)] private float firstPersonVerticalSensitivity = 2.8f;
-    [SerializeField, Range(0, 12)] private float firstPersonHorizontalSensitivity = 2.8f;
-    [SerializeField, Range(0, 12)] private float thirdPersonSensitivity = 3.6f;
-    [SerializeField] private float cameraUpperClamp = 90f;
+    [SerializeField, Range(0.1f, 1)] private float firstPersonSensitivity = 0.3f;
+    [SerializeField, Range(0.1f, 1)] private float thirdPersonSensitivity = 0.3f;
+    [SerializeField] private float cameraUpperClamp = -90f;
     [SerializeField] private float cameraLowerClamp = 60f;
     private float inputX = 0f;
     private float inputY = 0f;
+    private float xRotation;
     private CameraMode cameraMode;
     private Dictionary<CameraMode, Camera> cameraDictionary;
 
@@ -82,13 +82,16 @@ public class PlayerLook : MonoBehaviour
 
     private void FirstPersonLook()
     {
-        inputX += playerInputInstance.GetLookVector().x;
-        inputY += playerInputInstance.GetLookVector().y;
+        Vector2 look = playerInputInstance.GetLookVector();
+        float mouseX = look.x * firstPersonSensitivity;
+        float mouseY = look.y * firstPersonSensitivity;
 
-        Vector3 lookRotation = new Vector3(-inputY * firstPersonVerticalSensitivity, inputX * firstPersonHorizontalSensitivity, 0f);
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, cameraUpperClamp, cameraLowerClamp);
 
-        transform.rotation = Quaternion.Euler(0f, lookRotation.y, 0f);
-        firstPersonCam.transform.rotation = Quaternion.Euler(Mathf.Clamp(lookRotation.x, cameraLowerClamp, cameraUpperClamp), lookRotation.y, 0f);
+        firstPersonCam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        transform.Rotate(0f, mouseX, 0f);
     }
 
     private void ThirdPersonLook()
